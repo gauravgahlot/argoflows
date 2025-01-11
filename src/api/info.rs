@@ -3,7 +3,7 @@ use crate::error::{info::GetVersionError, Error};
 use crate::types::{info::Version, ResponseContent};
 
 pub fn get_version(config: &Config) -> Result<Version, Error<GetVersionError>> {
-    let uri = format!("{}/api/v1/version", config.base_path);
+    let uri = format!("{}/api/v1/version", config.host);
 
     let mut req_builder = config.client.request(reqwest::Method::GET, uri.as_str());
 

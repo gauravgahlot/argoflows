@@ -1,23 +1,87 @@
+use ::reqwest::Error;
 use reqwest::blocking as reqwest;
 
-const DEFAULT_BASE_PATH: &str = "https://localhost:2746";
+const DEFAULT_HOST: &str = "https://localhost:2746";
 
-#[derive(Debug, Clone)]
+/// A `ConfigBuilder` can be used to create a `Config` with custom options.
+#[derive(Debug, Default)]
+pub struct ConfigBuilder {
+    accept_invalid_certs: bool,
+    bearer_token: Option<String>,
+    host: String,
+}
+
+impl ConfigBuilder {
+    /// Constructs a new `ConfigBuilder`.
+    pub fn new() -> Self {
+        ConfigBuilder {
+            host: String::from(DEFAULT_HOST),
+            ..Default::default()
+        }
+    }
+
+    /// Returns a `Config` that uses this `ConfigBuilder` options.
+    pub fn build(self) -> Result<Config, Error> {
+        let mut builder = reqwest::Client::builder();
+
+        if self.accept_invalid_certs {
+            builder = builder.danger_accept_invalid_certs(true);
+        }
+
+        let client = builder.build()?;
+        Ok(Config {
+            host: self.host,
+            bearer_token: self.bearer_token,
+            client,
+        })
+    }
+
+    /// Sets the `host`, the client submits the request to.
+    pub fn host(mut self, host: &str) -> Self {
+        self.host = String::from(host);
+        self
+    }
+
+    /// Sets the `bearer_token` to be sent in the request header.
+    pub fn bearer_token(mut self, token: &str) -> Self {
+        self.bearer_token = Some(String::from(token));
+        self
+    }
+
+    /// Controls the use of certificate validation.
+    /// Defaults to `false`.
+    pub fn danger_accept_invalid_certs(mut self, allow: bool) -> Self {
+        self.accept_invalid_certs = allow;
+        self
+    }
+}
+
+/// `Config` defines how the client connects with the Argo server.
+///
+/// The `Config` has various configuration values to tweak, but the defaults
+/// are set to what is usually the most commonly desired value. To tweak the
+/// `Config`, use `Config::builder()`.
+#[derive(Debug, Default, Clone)]
 pub struct Config {
-    pub base_path: String,
-    pub client: reqwest::Client,
+    pub host: String,
     pub bearer_token: Option<String>,
+    pub client: reqwest::Client,
 }
 
 impl Config {
-    pub fn new(bearer_token: String) -> Self {
+    /// Constructs a new `Config`.
+    pub fn new() -> Self {
         Config {
-            base_path: DEFAULT_BASE_PATH.to_owned(),
-            bearer_token: Some(bearer_token),
-            client: reqwest::Client::builder()
-                .danger_accept_invalid_certs(true)
-                .build()
-                .expect("failed to create a reqwest client"),
+            host: String::from(DEFAULT_HOST),
+            client: reqwest::Client::new(),
+            ..Default::default()
         }
+    }
+
+    /// Creates a `ConfigBuilder` to build the `Config`.
+    ///
+    /// This is the same as `ConfigBuilder::new()`.
+    pub fn builder() -> ConfigBuilder {
+        ConfigBuilder::new()
     }
 }
