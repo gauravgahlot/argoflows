@@ -1,5 +1,3 @@
-use serde_json;
-
 use crate::config::Config;
 use crate::error::{
     info::{CollectEventError, GetInfoError, GetVersionError, UserInfoError},
