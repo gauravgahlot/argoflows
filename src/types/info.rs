@@ -15,7 +15,7 @@ impl CollectEventRequest {
 }
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
-pub struct InfoResponse {
+pub struct Info {
     #[serde(rename = "columns", skip_serializing_if = "Option::is_none")]
     pub columns: Option<Vec<Column>>,
     #[serde(rename = "links", skip_serializing_if = "Option::is_none")]
@@ -29,7 +29,7 @@ pub struct InfoResponse {
 }
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
-pub struct UserInfoResponse {
+pub struct UserInfo {
     #[serde(rename = "email", skip_serializing_if = "Option::is_none")]
     pub email: Option<String>,
     #[serde(rename = "emailVerified", skip_serializing_if = "Option::is_none")]

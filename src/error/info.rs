@@ -19,7 +19,7 @@ pub enum GetInfoError {
 /// Struct for typed errors of method [`api::info::get_user_info`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum UserInfoError {
+pub enum GetUserInfoError {
     DefaultResponse(super::GatewayRuntimeError),
     UnknownValue(serde_json::Value),
 }

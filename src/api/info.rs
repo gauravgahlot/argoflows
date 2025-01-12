@@ -1,10 +1,10 @@
 use crate::config::Config;
 use crate::error::{
-    info::{CollectEventError, GetInfoError, GetVersionError, UserInfoError},
+    info::{CollectEventError, GetInfoError, GetUserInfoError, GetVersionError},
     Error,
 };
 use crate::types::{
-    info::{CollectEventRequest, InfoResponse, UserInfoResponse, Version},
+    info::{CollectEventRequest, Info, UserInfo, Version},
     ResponseContent,
 };
 
@@ -39,7 +39,7 @@ pub fn collect_event(
     }
 }
 
-pub fn get_info(config: &Config) -> Result<InfoResponse, Error<GetInfoError>> {
+pub fn get_info(config: &Config) -> Result<Info, Error<GetInfoError>> {
     let uri = format!("{}/api/v1/info", config.host);
     let mut req_builder = config.client.request(reqwest::Method::GET, uri.as_str());
 
@@ -66,7 +66,7 @@ pub fn get_info(config: &Config) -> Result<InfoResponse, Error<GetInfoError>> {
     }
 }
 
-pub fn get_user_info(config: &Config) -> Result<UserInfoResponse, Error<UserInfoError>> {
+pub fn get_user_info(config: &Config) -> Result<UserInfo, Error<GetUserInfoError>> {
     let uri = format!("{}/api/v1/userinfo", config.host);
     let mut req_builder = config.client.request(reqwest::Method::GET, uri.as_str());
 
@@ -82,7 +82,7 @@ pub fn get_user_info(config: &Config) -> Result<UserInfoResponse, Error<UserInfo
     if !status.is_client_error() && !status.is_server_error() {
         serde_json::from_str(&content).map_err(Error::from)
     } else {
-        let entity: Option<UserInfoError> = serde_json::from_str(&content).ok();
+        let entity: Option<GetUserInfoError> = serde_json::from_str(&content).ok();
         let err = ResponseContent {
             status,
             content,
