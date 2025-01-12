@@ -15,6 +15,29 @@ pub struct InfoResponse {
 }
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+pub struct UserInfoResponse {
+    #[serde(rename = "email", skip_serializing_if = "Option::is_none")]
+    pub email: Option<String>,
+    #[serde(rename = "emailVerified", skip_serializing_if = "Option::is_none")]
+    pub email_verified: Option<bool>,
+    #[serde(rename = "groups", skip_serializing_if = "Option::is_none")]
+    pub groups: Option<Vec<String>>,
+    #[serde(rename = "issuer", skip_serializing_if = "Option::is_none")]
+    pub issuer: Option<String>,
+    #[serde(rename = "name", skip_serializing_if = "Option::is_none")]
+    pub name: Option<String>,
+    #[serde(rename = "serviceAccountName", skip_serializing_if = "Option::is_none")]
+    pub service_account_name: Option<String>,
+    #[serde(
+        rename = "serviceAccountNamespace",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub service_account_namespace: Option<String>,
+    #[serde(rename = "subject", skip_serializing_if = "Option::is_none")]
+    pub subject: Option<String>,
+}
+
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Version {
     #[serde(rename = "buildDate")]
     pub build_date: String,
