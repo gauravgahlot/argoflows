@@ -15,6 +15,11 @@ fn main() {
         Err(e) => eprintln!("failed to get info: {:?}", e),
     }
 
+    match info::get_user_info(&cfg) {
+        Ok(r) => println!("{:?}\n", r),
+        Err(e) => eprintln!("failed to get user info: {:?}", e),
+    }
+
     match info::get_version(&cfg) {
         Ok(v) => println!("{:?}\n", v),
         Err(e) => eprintln!("failed to get version: {:?}", e),
