@@ -7,6 +7,11 @@ pub struct ResponseContent<T> {
     pub entity: Option<T>,
 }
 
+mod metadata;
+pub use self::metadata::Metadata;
+
+pub mod artifact;
+
 pub mod http;
 
 pub mod info;
