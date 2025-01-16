@@ -7,6 +7,8 @@ pub struct ResponseContent<T> {
     pub entity: Option<T>,
 }
 
+pub mod http;
+
 pub mod info;
 
 pub mod metrics;
