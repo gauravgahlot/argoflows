@@ -9,4 +9,6 @@ pub struct ResponseContent<T> {
 
 pub mod info;
 
+pub mod metrics;
+
 pub mod sync;
