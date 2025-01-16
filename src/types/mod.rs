@@ -1,10 +1,11 @@
-use reqwest;
+mod backoff;
+pub use self::backoff::Backoff;
 
-#[derive(Debug)]
-pub struct ResponseContent<T> {
-    pub status: reqwest::StatusCode,
-    pub content: String,
-    pub entity: Option<T>,
-}
+
+mod retry_affinity;
+pub use retry_affinity::RetryAffinity;
+
+mod retry_strategy;
+pub use self::retry_strategy::RetryStrategy;
 
 pub mod info;
