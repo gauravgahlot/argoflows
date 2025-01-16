@@ -18,12 +18,13 @@ pub struct AzureArtifactRepository {
     #[serde(rename = "container")]
     pub container: String,
 
-    /// `Endpoint` is the service url associated with an account. It is most likely
-    /// \"https://<ACCOUNT_NAME>.blob.core.windows.net\".
+    /// `Endpoint` is the service url associated with an account. It is most
+    /// likely \"https://<ACCOUNT_NAME>.blob.core.windows.net\".
     #[serde(rename = "endpoint")]
     pub endpoint: String,
 
-    /// `UseSDKCreds` tells the driver to figure out credentials based on sdk defaults.
+    /// `UseSDKCreds` tells the driver to figure out credentials based on SDK
+    /// defaults.
     #[serde(rename = "useSDKCreds", skip_serializing_if = "Option::is_none")]
     pub use_sdk_creds: Option<bool>,
 }
