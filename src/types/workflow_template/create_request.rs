@@ -13,11 +13,3 @@ pub struct CreateRequest {
     #[serde(rename = "template", skip_serializing_if = "Option::is_none")]
     pub template: Option<Box<super::WorkflowTemplate>>,
 }
-
-impl CreateRequest {
-    pub fn new() -> Self {
-        CreateRequest {
-            ..Default::default()
-        }
-    }
-}
