@@ -32,6 +32,7 @@ pub struct ListOptions {
     pub timeout_seconds: Option<String>,
     pub limit: Option<String>,
     pub r#continue: Option<String>,
+    pub send_initial_events: Option<bool>,
 }
 
 #[derive(Default)]
