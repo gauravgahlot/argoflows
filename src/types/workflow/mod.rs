@@ -7,6 +7,9 @@ pub use self::artifact_repository_ref::ArtifactRepositoryRef;
 mod condition;
 pub use self::condition::Condition;
 
+mod create_request;
+pub use self::create_request::CreateRequest;
+
 mod executor_config;
 pub use self::executor_config::ExecutorConfig;
 
@@ -15,6 +18,9 @@ pub use label_value_from::LabelValueFrom;
 
 mod lifecycle_hook;
 pub use self::lifecycle_hook::LifecycleHook;
+
+mod list;
+pub use self::list::WorkflowList;
 
 mod metadata;
 pub use self::metadata::WorkflowMetadata;
@@ -48,6 +54,9 @@ pub use self::value_from::ValueFrom;
 
 mod volume_claim_gc;
 pub use self::volume_claim_gc::VolumeClaimGC;
+
+mod workflow;
+pub use self::workflow::Workflow;
 
 mod workflow_level_artifact_gc;
 pub use self::workflow_level_artifact_gc::WorkflowLevelArtifactGC;

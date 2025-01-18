@@ -2,24 +2,22 @@ use k8s_openapi::apimachinery::pkg::apis::meta::v1 as metav1;
 
 use crate::config::Config;
 use crate::error::{
-    workflow_template::{
-        CreateWorkflowTemplateError, DeleteWorkflowTemplateError, GetWorkflowTemplateError,
-        ListWorkflowTemplatesError,
-    },
+    workflow::{CreateWorkflowError, DeleteWorkflowError, GetWorkflowError, ListWorkflowsError},
     Error,
 };
+
 use crate::types::{
-    workflow_template::{CreateRequest, WorkflowTemplate, WorkflowTemplateList},
+    workflow::{CreateRequest, Workflow, WorkflowList},
     ListOptions, ResponseContent,
 };
 
-pub fn create_workflow_template(
+pub fn create_workflow(
     config: &Config,
     namespace: &str,
     body: CreateRequest,
-) -> Result<WorkflowTemplate, Error<CreateWorkflowTemplateError>> {
+) -> Result<Workflow, Error<CreateWorkflowError>> {
     let uri = format!(
-        "{}/api/v1/workflow-templates/{namespace}",
+        "{}/api/v1/workflows/{namespace}",
         config.host,
         namespace = super::urlencode(namespace)
     );
@@ -32,14 +30,14 @@ pub fn create_workflow_template(
     }
 
     let req = req_builder.build()?;
-    let resp = config.client.execute(req)?;
-    let status = resp.status();
-    let content = resp.text()?;
+    let res = config.client.execute(req)?;
+    let status = res.status();
+    let content = res.text()?;
 
     if !status.is_client_error() && !status.is_server_error() {
         serde_json::from_str(&content).map_err(Error::from)
     } else {
-        let entity: Option<CreateWorkflowTemplateError> = serde_json::from_str(&content).ok();
+        let entity: Option<CreateWorkflowError> = serde_json::from_str(&content).ok();
         let error = ResponseContent {
             status,
             content,
@@ -49,18 +47,20 @@ pub fn create_workflow_template(
     }
 }
 
-pub fn delete_workflow_template(
+pub fn delete_workflow(
     config: &Config,
     namespace: &str,
     name: &str,
     delete_options: Option<metav1::DeleteOptions>,
-) -> Result<serde_json::Value, Error<DeleteWorkflowTemplateError>> {
+    force: bool,
+) -> Result<serde_json::Value, Error<DeleteWorkflowError>> {
     let uri = format!(
-        "{}/api/v1/workflow-templates/{namespace}/{name}",
+        "{}/api/v1/workflows/{namespace}/{name}",
         config.host,
         namespace = super::urlencode(namespace),
         name = super::urlencode(name)
     );
+
     let mut req_builder = config.client.request(reqwest::Method::DELETE, uri.as_str());
 
     let delete_options = delete_options.unwrap_or_default();
@@ -110,36 +110,41 @@ pub fn delete_workflow_template(
         };
     }
 
+    if force {
+        req_builder = req_builder.query(&[("force", &force.to_string())]);
+    }
+
     if let Some(bearer_token) = &config.bearer_token {
         req_builder = req_builder.bearer_auth(bearer_token);
     }
 
     let req = req_builder.build()?;
-    let resp = config.client.execute(req)?;
-    let status = resp.status();
-    let content = resp.text()?;
+    let res = config.client.execute(req)?;
+    let status = res.status();
+    let content = res.text()?;
 
     if !status.is_client_error() && !status.is_server_error() {
         serde_json::from_str(&content).map_err(Error::from)
     } else {
-        let entity: Option<DeleteWorkflowTemplateError> = serde_json::from_str(&content).ok();
-        let error = ResponseContent {
+        let entity: Option<DeleteWorkflowError> = serde_json::from_str(&content).ok();
+        let err = ResponseContent {
             status,
             content,
-            entity: entity,
+            entity,
         };
-        Err(Error::Response(error))
+        Err(Error::Response(err))
     }
 }
 
-pub fn get_workflow_template(
+pub fn get_workflow(
     config: &Config,
     namespace: &str,
     name: &str,
     resource_version: Option<&str>,
-) -> Result<WorkflowTemplate, Error<GetWorkflowTemplateError>> {
+    fields: Option<&str>,
+) -> Result<Workflow, Error<GetWorkflowError>> {
     let uri = format!(
-        "{}/api/v1/workflow-templates/{namespace}/{name}",
+        "{}/api/v1/workflows/{namespace}/{name}",
         config.host,
         namespace = super::urlencode(namespace),
         name = super::urlencode(name)
@@ -150,19 +155,22 @@ pub fn get_workflow_template(
     if let Some(version) = resource_version {
         req_builder = req_builder.query(&[("getOptions.resourceVersion", &version.to_string())]);
     }
+    if let Some(local_var_str) = fields {
+        req_builder = req_builder.query(&[("fields", &local_var_str.to_string())]);
+    }
     if let Some(bearer_token) = &config.bearer_token {
         req_builder = req_builder.bearer_auth(bearer_token);
     }
 
     let req = req_builder.build()?;
-    let resp = config.client.execute(req)?;
-    let status = resp.status();
-    let content = resp.text()?;
+    let res = config.client.execute(req)?;
+    let status = res.status();
+    let content = res.text()?;
 
     if !status.is_client_error() && !status.is_server_error() {
         serde_json::from_str(&content).map_err(Error::from)
     } else {
-        let entity: Option<GetWorkflowTemplateError> = serde_json::from_str(&content).ok();
+        let entity: Option<GetWorkflowError> = serde_json::from_str(&content).ok();
         let error = ResponseContent {
             status,
             content,
@@ -172,51 +180,57 @@ pub fn get_workflow_template(
     }
 }
 
-pub fn list_workflow_templates(
+pub fn list_workflows(
     config: &Config,
     namespace: &str,
-    name_pattern: Option<&str>,
     list_options: Option<ListOptions>,
-) -> Result<WorkflowTemplateList, Error<ListWorkflowTemplatesError>> {
+    fields: Option<&str>,
+    name_filter: Option<&str>,
+) -> Result<WorkflowList, Error<ListWorkflowsError>> {
     let uri = format!(
-        "{}/api/v1/workflow-templates/{namespace}",
+        "{}/api/v1/workflows/{namespace}",
         config.host,
         namespace = super::urlencode(namespace)
     );
 
     let mut req_builder = config.client.request(reqwest::Method::GET, uri.as_str());
 
-    if let Some(pattern) = name_pattern {
-        req_builder = req_builder.query(&[("namePattern", pattern.to_string())]);
-    }
-
     let list_options = list_options.unwrap_or_default();
     if let Some(val) = list_options.label_selector {
-        req_builder = req_builder.query(&[("listOptions.labelSelector", val)]);
+        req_builder = req_builder.query(&[("listOptions.labelSelector", &val.to_string())]);
     }
     if let Some(val) = list_options.field_selector {
-        req_builder = req_builder.query(&[("listOptions.fieldSelector", val)]);
+        req_builder = req_builder.query(&[("listOptions.fieldSelector", &val.to_string())]);
     }
     if let Some(val) = list_options.watch {
-        req_builder = req_builder.query(&[("listOptions.watch", val)]);
+        req_builder = req_builder.query(&[("listOptions.watch", &val.to_string())]);
     }
     if let Some(val) = list_options.allow_watch_bookmarks {
-        req_builder = req_builder.query(&[("listOptions.allowWatchBookmarks", val)]);
+        req_builder = req_builder.query(&[("listOptions.allowWatchBookmarks", &val.to_string())]);
     }
     if let Some(val) = list_options.resource_version {
-        req_builder = req_builder.query(&[("listOptions.resourceVersion", val)]);
+        req_builder = req_builder.query(&[("listOptions.resourceVersion", &val.to_string())]);
     }
     if let Some(val) = list_options.resource_version_match {
-        req_builder = req_builder.query(&[("listOptions.resourceVersionMatch", val)]);
+        req_builder = req_builder.query(&[("listOptions.resourceVersionMatch", &val.to_string())]);
     }
     if let Some(val) = list_options.timeout_seconds {
-        req_builder = req_builder.query(&[("listOptions.timeoutSeconds", val)]);
+        req_builder = req_builder.query(&[("listOptions.timeoutSeconds", &val.to_string())]);
     }
     if let Some(val) = list_options.limit {
-        req_builder = req_builder.query(&[("listOptions.limit", val)]);
+        req_builder = req_builder.query(&[("listOptions.limit", &val.to_string())]);
     }
-    if let Some(val) = list_options.r#continue {
-        req_builder = req_builder.query(&[("listOptions.continue", val)]);
+    if let Some(local_var_str) = list_options.r#continue {
+        req_builder = req_builder.query(&[("listOptions.continue", &local_var_str.to_string())]);
+    }
+    if let Some(val) = list_options.send_initial_events {
+        req_builder = req_builder.query(&[("listOptions.sendInitialEvents", &val.to_string())]);
+    }
+    if let Some(val) = fields {
+        req_builder = req_builder.query(&[("fields", &val.to_string())]);
+    }
+    if let Some(val) = name_filter {
+        req_builder = req_builder.query(&[("nameFilter", &val.to_string())]);
     }
 
     if let Some(bearer_token) = &config.bearer_token {
@@ -224,14 +238,14 @@ pub fn list_workflow_templates(
     }
 
     let req = req_builder.build()?;
-    let resp = config.client.execute(req)?;
-    let status = resp.status();
-    let content = resp.text()?;
+    let res = config.client.execute(req)?;
+    let status = res.status();
+    let content = res.text()?;
 
     if !status.is_client_error() && !status.is_server_error() {
         serde_json::from_str(&content).map_err(Error::from)
     } else {
-        let entity: Option<ListWorkflowTemplatesError> = serde_json::from_str(&content).ok();
+        let entity: Option<ListWorkflowsError> = serde_json::from_str(&content).ok();
         let error = ResponseContent {
             status,
             content,
