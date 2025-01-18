@@ -13,8 +13,6 @@ use crate::types::{
     ListOptions, ResponseContent,
 };
 
-use super::*;
-
 pub fn create_workflow_template(
     config: &Config,
     namespace: &str,
@@ -23,11 +21,15 @@ pub fn create_workflow_template(
     let uri = format!(
         "{}/api/v1/workflow-templates/{namespace}",
         config.host,
-        namespace = url::encode(namespace)
+        namespace = super::urlencode(namespace)
     );
 
     let mut req_builder = config.client.request(reqwest::Method::POST, uri.as_str());
     req_builder = req_builder.json(&body);
+
+    if let Some(bearer_token) = &config.bearer_token {
+        req_builder = req_builder.bearer_auth(bearer_token);
+    }
 
     let req = req_builder.build()?;
     let resp = config.client.execute(req)?;
@@ -56,41 +58,41 @@ pub fn delete_workflow_template(
     let uri = format!(
         "{}/api/v1/workflow-templates/{namespace}/{name}",
         config.host,
-        namespace = url::encode(namespace),
-        name = url::encode(name)
+        namespace = super::urlencode(namespace),
+        name = super::urlencode(name)
     );
     let mut req_builder = config.client.request(reqwest::Method::DELETE, uri.as_str());
 
     let delete_options = delete_options.unwrap_or_default();
 
-    if let Some(ref grace_period) = delete_options.grace_period_seconds {
+    if let Some(grace_period) = delete_options.grace_period_seconds {
         req_builder = req_builder.query(&[(
             "deleteOptions.gracePeriodSeconds",
             &grace_period.to_string(),
         )]);
     }
 
-    if let Some(ref dependants) = delete_options.orphan_dependents {
+    if let Some(dependants) = delete_options.orphan_dependents {
         req_builder =
             req_builder.query(&[("deleteOptions.orphanDependents", &dependants.to_string())]);
     }
-    if let Some(ref policy) = delete_options.propagation_policy {
+    if let Some(policy) = delete_options.propagation_policy {
         req_builder =
             req_builder.query(&[("deleteOptions.propagationPolicy", &policy.to_string())]);
     }
 
     let preconditions = delete_options.preconditions.unwrap_or_default();
-    if let Some(ref uid) = preconditions.uid {
+    if let Some(uid) = preconditions.uid {
         req_builder = req_builder.query(&[("deleteOptions.preconditions.uid", &uid.to_string())]);
     }
-    if let Some(ref version) = preconditions.resource_version {
+    if let Some(version) = preconditions.resource_version {
         req_builder = req_builder.query(&[(
             "deleteOptions.preconditions.resourceVersion",
             &version.to_string(),
         )]);
     }
 
-    if let Some(ref val) = delete_options.dry_run {
+    if let Some(val) = delete_options.dry_run {
         req_builder = match "multi" {
             "multi" => req_builder.query(
                 &val.into_iter()
@@ -139,13 +141,13 @@ pub fn get_workflow_template(
     let uri = format!(
         "{}/api/v1/workflow-templates/{namespace}/{name}",
         config.host,
-        namespace = url::encode(namespace),
-        name = url::encode(name)
+        namespace = super::urlencode(namespace),
+        name = super::urlencode(name)
     );
 
     let mut req_builder = config.client.request(reqwest::Method::GET, uri.as_str());
 
-    if let Some(ref version) = resource_version {
+    if let Some(version) = resource_version {
         req_builder = req_builder.query(&[("getOptions.resourceVersion", &version.to_string())]);
     }
     if let Some(bearer_token) = &config.bearer_token {
@@ -179,7 +181,7 @@ pub fn list_workflow_templates(
     let uri = format!(
         "{}/api/v1/workflow-templates/{namespace}",
         config.host,
-        namespace = url::encode(namespace)
+        namespace = super::urlencode(namespace)
     );
 
     let mut req_builder = config.client.request(reqwest::Method::GET, uri.as_str());
@@ -189,31 +191,31 @@ pub fn list_workflow_templates(
     }
 
     let list_options = list_options.unwrap_or_default();
-    if let Some(ref val) = list_options.label_selector {
+    if let Some(val) = list_options.label_selector {
         req_builder = req_builder.query(&[("listOptions.labelSelector", val)]);
     }
-    if let Some(ref val) = list_options.field_selector {
+    if let Some(val) = list_options.field_selector {
         req_builder = req_builder.query(&[("listOptions.fieldSelector", val)]);
     }
-    if let Some(ref val) = list_options.watch {
+    if let Some(val) = list_options.watch {
         req_builder = req_builder.query(&[("listOptions.watch", val)]);
     }
-    if let Some(ref val) = list_options.allow_watch_bookmarks {
+    if let Some(val) = list_options.allow_watch_bookmarks {
         req_builder = req_builder.query(&[("listOptions.allowWatchBookmarks", val)]);
     }
-    if let Some(ref val) = list_options.resource_version {
+    if let Some(val) = list_options.resource_version {
         req_builder = req_builder.query(&[("listOptions.resourceVersion", val)]);
     }
-    if let Some(ref val) = list_options.resource_version_match {
+    if let Some(val) = list_options.resource_version_match {
         req_builder = req_builder.query(&[("listOptions.resourceVersionMatch", val)]);
     }
-    if let Some(ref val) = list_options.timeout_seconds {
+    if let Some(val) = list_options.timeout_seconds {
         req_builder = req_builder.query(&[("listOptions.timeoutSeconds", val)]);
     }
-    if let Some(ref val) = list_options.limit {
+    if let Some(val) = list_options.limit {
         req_builder = req_builder.query(&[("listOptions.limit", val)]);
     }
-    if let Some(ref val) = list_options.r#continue {
+    if let Some(val) = list_options.r#continue {
         req_builder = req_builder.query(&[("listOptions.continue", val)]);
     }
 
