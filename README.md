@@ -10,7 +10,7 @@
 
   <p>
     <a href="https://github.com/gauravgahlot/argoflows/actions?query=workflow%3ACI"><img src="https://github.com/gauravgahlot/argoflows/actions/workflows/ci.yaml/badge.svg" alt="build status" /></a>
-    <!-- <a href="https://docs.rs/whisk"><img src="https://docs.rs/whisk/badge.svg" alt="Documentation Status" /></a> -->
+    <a href="https://docs.rs/argoflows"><img src="https://docs.rs/argoflows/badge.svg" alt="Documentation Status" /></a>
   </p>
 </div>
 
@@ -61,12 +61,12 @@
 |                                  |           | `/api/v1/stream/sensors/{namespace}/logs`                                                            | GET       |                                                                                     |
 | `WorkflowService`                |           | `/api/v1/stream/events/{namespace}`                                                                  | GET       |                                                                                     |
 |                                  |           | `/api/v1/workflow-events/{namespace}`                                                                | GET       |                                                                                     |
-|                                  |           | `/api/v1/workflows/{namespace}`                                                                      | GET       |                                                                                     |
-|                                  |           | `/api/v1/workflows/{namespace}`                                                                      | POST      |                                                                                     |
+|                                  | ✅        | `/api/v1/workflows/{namespace}`                                                                      | GET       |                                                                                     |
+|                                  | ✅        | `/api/v1/workflows/{namespace}`                                                                      | POST      |                                                                                     |
 |                                  |           | `/api/v1/workflows/{namespace}/lint`                                                                 | POST      |                                                                                     |
 |                                  |           | `/api/v1/workflows/{namespace}/submit`                                                               | POST      |                                                                                     |
-|                                  |           | `/api/v1/workflows/{namespace}/{name}`                                                               | GET       |                                                                                     |
-|                                  |           | `/api/v1/workflows/{namespace}/{name}`                                                               | DELETE    |                                                                                     |
+|                                  | ✅        | `/api/v1/workflows/{namespace}/{name}`                                                               | GET       |                                                                                     |
+|                                  | ✅        | `/api/v1/workflows/{namespace}/{name}`                                                               | DELETE    |                                                                                     |
 |                                  |           | `/api/v1/workflows/{namespace}/{name}/log`                                                           | GET       |                                                                                     |
 |                                  |           | `/api/v1/workflows/{namespace}/{name}/resubmit`                                                      | PUT       |                                                                                     |
 |                                  |           | `/api/v1/workflows/{namespace}/{name}/resume`                                                        | PUT       |                                                                                     |
@@ -76,12 +76,12 @@
 |                                  |           | `/api/v1/workflows/{namespace}/{name}/suspend`                                                       | PUT       |                                                                                     |
 |                                  |           | `/api/v1/workflows/{namespace}/{name}/terminate`                                                     | PUT       |                                                                                     |
 |                                  |           | `/api/v1/workflows/{namespace}/{name}/{podName}/log`                                                 | GET       | DEPRECATED: Cannot work via HTTP if podName is an empty string. Use `WorkflowLogs`. |
-| `WorkflowTemplateService`        |           | `/api/v1/workflow-templates/{namespace}`                                                             | GET       |                                                                                     |
-|                                  |           | `/api/v1/workflow-templates/{namespace}`                                                             | POST      |                                                                                     |
+| `WorkflowTemplateService`        | ✅        | `/api/v1/workflow-templates/{namespace}`                                                             | GET       |                                                                                     |
+|                                  | ✅        | `/api/v1/workflow-templates/{namespace}`                                                             | POST      |                                                                                     |
 |                                  |           | `/api/v1/workflow-templates/{namespace}/lint`                                                        | POST      |                                                                                     |
-|                                  |           | `/api/v1/workflow-templates/{namespace}/{name}`                                                      | GET       |                                                                                     |
+|                                  | ✅        | `/api/v1/workflow-templates/{namespace}/{name}`                                                      | GET       |                                                                                     |
 |                                  |           | `/api/v1/workflow-templates/{namespace}/{name}`                                                      | PUT       |                                                                                     |
-|                                  |           | `/api/v1/workflow-templates/{namespace}/{name}`                                                      | DELETE    |                                                                                     |
+|                                  | ✅        | `/api/v1/workflow-templates/{namespace}/{name}`                                                      | DELETE    |                                                                                     |
 | `ArtifactService`                |           | `/artifact-files/{namespace}/{idDiscriminator}/{id}/{nodeId}/{artifactDiscriminator}/{artifactName}` | GET       | Get an artifact.                                                                    |
 |                                  |           | `/artifacts-by-uid/{uid}/{nodeId}/{artifactName}`                                                    | GET       | Get an output artifact by UID.                                                      |
 |                                  |           | `/artifacts/{namespace}/{name}/{nodeId}/{artifactName}`                                              | GET       | Get an output artifact.                                                             |
