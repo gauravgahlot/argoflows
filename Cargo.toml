@@ -2,6 +2,21 @@
 name = "argoflows"
 version = "0.1.0"
 edition = "2021"
+license = "Apache-2.0"
+authors = ["Gaurav Gahlot<me@gauravgahlot.in>"]
+categories = ["api-bindings", "web-programming::http-client"]
+description = "Argoflows lets you seamlessly integrate and manage Argo Workflows directly from your Rust applications."
+documentation = "https://docs.rs/argoflows"
+keywords = ["argo",  "client", "http", "workflows"]
+readme = "README.md"
+repository = "https://github.io/gauravgahlot/argoflows"
+include = [    
+    "Cargo.toml",
+    "LICENSE",
+    "README.md",
+    "src/**/*",
+    "examples/**/*",
+]
 
 [dependencies]
 k8s-openapi = { version = "0.24.0", features = ["v1_31"] }
