@@ -21,10 +21,21 @@ pub struct CreateOptions {
     pub field_validation: Option<String>,
 }
 
-impl CreateOptions {
-    pub fn new() -> Self {
-        Self {
-            ..Default::default()
-        }
-    }
+#[derive(Default)]
+pub struct ListOptions {
+    pub label_selector: Option<String>,
+    pub field_selector: Option<String>,
+    pub watch: Option<bool>,
+    pub allow_watch_bookmarks: Option<bool>,
+    pub resource_version: Option<String>,
+    pub resource_version_match: Option<String>,
+    pub timeout_seconds: Option<String>,
+    pub limit: Option<String>,
+    pub r#continue: Option<String>,
+}
+
+#[derive(Default)]
+pub struct Preconditions {
+    pub uid: Option<String>,
+    pub resource_version: Option<String>,
 }
