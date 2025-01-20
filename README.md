@@ -16,74 +16,83 @@
 
 ## Supported API(s)
 
-| API                              | Supported | HTTP Request                                                                                         | HTTP Verb | Description                                                                         |
-| -------------------------------- | --------- | ---------------------------------------------------------------------------------------------------- | --------- | ----------------------------------------------------------------------------------- |
-| `ArchivedWorkflowService`        |           | `/api/v1/archived-workflows`                                                                         | GET       |                                                                                     |
-|                                  |           | `/api/v1/archived-workflows-label-keys`                                                              | GET       |                                                                                     |
-|                                  |           | `/api/v1/archived-workflows-label-values`                                                            | GET       |                                                                                     |
-|                                  |           | `/api/v1/archived-workflows/{uid}`                                                                   | GET       |                                                                                     |
-|                                  |           | `/api/v1/archived-workflows/{uid}`                                                                   | DELETE    |                                                                                     |
-|                                  |           | `/api/v1/archived-workflows/{uid}/resubmit`                                                          | PUT       |                                                                                     |
-|                                  |           | `/api/v1/archived-workflows/{uid}/retry`                                                             | PUT       |                                                                                     |
-| `ClusterWorkflowTemplateService` |           | `/api/v1/cluster-workflow-templates`                                                                 | GET       |                                                                                     |
-|                                  |           | `/api/v1/cluster-workflow-templates`                                                                 | POST      |                                                                                     |
-|                                  |           | `/api/v1/cluster-workflow-templates/lint`                                                            | POST      |                                                                                     |
-|                                  |           | `/api/v1/cluster-workflow-templates/{name}`                                                          | GET       |                                                                                     |
-|                                  |           | `/api/v1/cluster-workflow-templates/{name}`                                                          | PUT       |                                                                                     |
-|                                  |           | `/api/v1/cluster-workflow-templates/{name}`                                                          | DELETE    |                                                                                     |
-| `CronWorkflowService`            |           | `/api/v1/cluster-workflow-templates/{name}`                                                          | GET       |                                                                                     |
-|                                  |           | `/api/v1/cron-workflows/{namespace}`                                                                 | POST      |                                                                                     |
-|                                  |           | `/api/v1/cron-workflows/{namespace}/lint`                                                            | POST      |                                                                                     |
-|                                  |           | `/api/v1/cron-workflows/{namespace}/{name}`                                                          | GET       |                                                                                     |
-|                                  |           | `/api/v1/cron-workflows/{namespace}/{name}`                                                          | PUT       |                                                                                     |
-|                                  |           | `/api/v1/cron-workflows/{namespace}/{name}`                                                          | DELETE    |                                                                                     |
-|                                  |           | `/api/v1/cron-workflows/{namespace}/{name}/resume`                                                   | PUT       |                                                                                     |
-|                                  |           | `/api/v1/cron-workflows/{namespace}/{name}/suspend`                                                  | PUT       |                                                                                     |
-| `EventSourceService`             |           | `/api/v1/event-sources/{namespace}`                                                                  | GET       |                                                                                     |
-|                                  |           | `/api/v1/event-sources/{namespace}`                                                                  | POST      |                                                                                     |
-|                                  |           | `/api/v1/event-sources/{namespace}/{name}`                                                           | GET       |                                                                                     |
-|                                  |           | `/api/v1/event-sources/{namespace}/{name}`                                                           | PUT       |                                                                                     |
-|                                  |           | `/api/v1/event-sources/{namespace}/{name}`                                                           | DELETE    |                                                                                     |
-|                                  |           | `/api/v1/stream/event-sources/{namespace}`                                                           | GET       |                                                                                     |
-|                                  |           | `/api/v1/stream/event-sources/{namespace}/logs`                                                      | GET       |                                                                                     |
-| `EventService`                   |           | `/api/v1/events/{namespace}/{discriminator}`                                                         | POST      |                                                                                     |
-|                                  |           | `/api/v1/workflow-event-bindings/{namespace}`                                                        | GET       |                                                                                     |
-| `InfoService`                    | ✅        | `/api/v1/info`                                                                                       | GET       |                                                                                     |
-|                                  | ✅        | `/api/v1/tracking/event`                                                                             | POST      |                                                                                     |
-|                                  | ✅        | `/api/v1/userinfo`                                                                                   | GET       |                                                                                     |
-|                                  | ✅        | `/api/v1/version`                                                                                    | GET       |                                                                                     |
-| `SensorService`                  |           | `/api/v1/sensors/{namespace}`                                                                        | GET       |                                                                                     |
-|                                  |           | `/api/v1/sensors/{namespace}`                                                                        | POST      |                                                                                     |
-|                                  |           | `/api/v1/sensors/{namespace}/{name}`                                                                 | GET       |                                                                                     |
-|                                  |           | `/api/v1/sensors/{namespace}/{name}`                                                                 | PUT       |                                                                                     |
-|                                  |           | `/api/v1/sensors/{namespace}/{name}`                                                                 | DELETE    |                                                                                     |
-|                                  |           | `/api/v1/stream/sensors/{namespace}`                                                                 | GET       |                                                                                     |
-|                                  |           | `/api/v1/stream/sensors/{namespace}/logs`                                                            | GET       |                                                                                     |
-| `WorkflowService`                |           | `/api/v1/stream/events/{namespace}`                                                                  | GET       |                                                                                     |
-|                                  |           | `/api/v1/workflow-events/{namespace}`                                                                | GET       |                                                                                     |
-|                                  | ✅        | `/api/v1/workflows/{namespace}`                                                                      | GET       |                                                                                     |
-|                                  | ✅        | `/api/v1/workflows/{namespace}`                                                                      | POST      |                                                                                     |
-|                                  |           | `/api/v1/workflows/{namespace}/lint`                                                                 | POST      |                                                                                     |
-|                                  |           | `/api/v1/workflows/{namespace}/submit`                                                               | POST      |                                                                                     |
-|                                  | ✅        | `/api/v1/workflows/{namespace}/{name}`                                                               | GET       |                                                                                     |
-|                                  | ✅        | `/api/v1/workflows/{namespace}/{name}`                                                               | DELETE    |                                                                                     |
-|                                  |           | `/api/v1/workflows/{namespace}/{name}/log`                                                           | GET       |                                                                                     |
-|                                  |           | `/api/v1/workflows/{namespace}/{name}/resubmit`                                                      | PUT       |                                                                                     |
-|                                  |           | `/api/v1/workflows/{namespace}/{name}/resume`                                                        | PUT       |                                                                                     |
-|                                  |           | `/api/v1/workflows/{namespace}/{name}/retry`                                                         | PUT       |                                                                                     |
-|                                  |           | `/api/v1/workflows/{namespace}/{name}/set`                                                           | PUT       |                                                                                     |
-|                                  |           | `/api/v1/workflows/{namespace}/{name}/stop`                                                          | PUT       |                                                                                     |
-|                                  |           | `/api/v1/workflows/{namespace}/{name}/suspend`                                                       | PUT       |                                                                                     |
-|                                  |           | `/api/v1/workflows/{namespace}/{name}/terminate`                                                     | PUT       |                                                                                     |
-|                                  |           | `/api/v1/workflows/{namespace}/{name}/{podName}/log`                                                 | GET       | DEPRECATED: Cannot work via HTTP if podName is an empty string. Use `WorkflowLogs`. |
-| `WorkflowTemplateService`        | ✅        | `/api/v1/workflow-templates/{namespace}`                                                             | GET       |                                                                                     |
-|                                  | ✅        | `/api/v1/workflow-templates/{namespace}`                                                             | POST      |                                                                                     |
-|                                  |           | `/api/v1/workflow-templates/{namespace}/lint`                                                        | POST      |                                                                                     |
-|                                  | ✅        | `/api/v1/workflow-templates/{namespace}/{name}`                                                      | GET       |                                                                                     |
-|                                  |           | `/api/v1/workflow-templates/{namespace}/{name}`                                                      | PUT       |                                                                                     |
-|                                  | ✅        | `/api/v1/workflow-templates/{namespace}/{name}`                                                      | DELETE    |                                                                                     |
-| `ArtifactService`                |           | `/artifact-files/{namespace}/{idDiscriminator}/{id}/{nodeId}/{artifactDiscriminator}/{artifactName}` | GET       | Get an artifact.                                                                    |
-|                                  |           | `/artifacts-by-uid/{uid}/{nodeId}/{artifactName}`                                                    | GET       | Get an output artifact by UID.                                                      |
-|                                  |           | `/artifacts/{namespace}/{name}/{nodeId}/{artifactName}`                                              | GET       | Get an output artifact.                                                             |
-|                                  |           | `/input-artifacts-by-uid/{uid}/{nodeId}/{artifactName}`                                              | GET       | Get an input artifact by UID.                                                       |
-|                                  |           | `/input-artifacts/{namespace}/{name}/{nodeId}/{artifactName}`                                        | GET       | Get an input artifact.                                                              |
+| API                              | Supported | Endpoint                              | Comment    |
+| -------------------------------- | --------- | ------------------------------------- | ---------- |
+| `ArchivedWorkflowService`        |           | `delete_archived_workflow`            |            |
+|                                  |           | `get_archived_workflow`               |            |
+|                                  |           | `list_archived_workflow_label_keys`   |            |
+|                                  |           | `list_archived_workflow_label_values` |            |
+|                                  |           | `list_archived_workflows`             |            |
+|                                  |           | `resubmit_archived_workflow`          |            |
+|                                  |           | `retry_archived_workflow`             |            |
+|                                  |           |                                       |            |
+| `ClusterWorkflowTemplateService` |           | `create_cluster_workflow_template`    |            |
+|                                  |           | `delete_cluster_workflow_template`    |            |
+|                                  |           | `get_cluster_workflow_template`       |            |
+|                                  |           | `lint_cluster_workflow_template`      |            |
+|                                  |           | `list_cluster_workflow_templates`     |            |
+|                                  |           | `update_cluster_workflow_template`    |            |
+|                                  |           |                                       |            |
+| `CronWorkflowService`            |           | `create_cron_workflow`                |            |
+|                                  |           | `delete_cron_workflow`                |            |
+|                                  |           | `get_cron_workflow`                   |            |
+|                                  |           | `lint_cron_workflow`                  |            |
+|                                  |           | `list_cron_workflows`                 |            |
+|                                  |           | `resume_cron_workflow`                |            |
+|                                  |           | `suspend_cron_workflow`               |            |
+|                                  |           | `update_cron_workflow`                |            |
+|                                  |           |                                       |            |
+| `EventSourceService`             |           | `create__event_source`                |            |
+|                                  |           | `delete_event_source`                 |            |
+|                                  |           | `event_sources_logs`                  |            |
+|                                  |           | `get_event_source`                    |            |
+|                                  |           | `list_event_sources`                  |            |
+|                                  |           | `update_event_source`                 |            |
+|                                  |           | `watch_event_sources`                 |            |
+|                                  |           |                                       |            |
+| `EventService`                   |           | `list_workflow_event_bindings`        |            |
+|                                  |           | `receive_event`                       |            |
+|                                  |           |                                       |            |
+| `InfoService`                    | ✅        | `collect_event`                       |            |
+|                                  | ✅        | `get_info`                            |            |
+|                                  | ✅        | `get_user_info`                       |            |
+|                                  | ✅        | `get_version`                         |            |
+|                                  |           |                                       |            |
+| `SensorService`                  |           | `create_sensor`                       |            |
+|                                  |           | `delete_sensor`                       |            |
+|                                  |           | `get_sensor`                          |            |
+|                                  |           | `list_sensors`                        |            |
+|                                  |           | `sensors_logs`                        |            |
+|                                  |           | `update_sensor`                       |            |
+|                                  |           | `watch_sensors`                       |            |
+|                                  |           |                                       |            |
+| `WorkflowService`                | ✅        | `create_workflow`                     |            |
+|                                  | ✅        | `delete_workflow`                     |            |
+|                                  | ✅        | `get_workflow`                        |            |
+|                                  |           | `lint_workflow`                       |            |
+|                                  | ✅        | `list_workflows`                      |            |
+|                                  | ❌        | `pod_logs`                            | DEPRECATED |
+|                                  |           | `resubmit_workflow`                   |            |
+|                                  |           | `resume_workflow`                     |            |
+|                                  |           | `retry_workflow`                      |            |
+|                                  |           | `set_workflow`                        |            |
+|                                  |           | `stop_workflow`                       |            |
+|                                  |           | `submit_workflow`                     |            |
+|                                  |           | `suspend_workflow`                    |            |
+|                                  |           | `terminate_workflow`                  |            |
+|                                  |           | `watch_events`                        |            |
+|                                  |           | `watch_workflows`                     |            |
+|                                  |           | `workflow_logs`                       |            |
+|                                  |           |                                       |            |
+| `WorkflowTemplateService`        | ✅        | `create_workflow_template`            |            |
+|                                  | ✅        | `delete_workflow_template`            |            |
+|                                  | ✅        | `get_workflow_template`               |            |
+|                                  |           | `lint_workflow_template`              |            |
+|                                  | ✅        | `list_workflow_templates`             |            |
+|                                  |           | `update_workflow_template`            |            |
+|                                  |           |                                       |            |
+| `ArtifactService`                |           | `get_artifact_file`                   |            |
+|                                  |           | `get_input_artifact`                  |            |
+|                                  |           | `get_input_artifact_by_uid`           |            |
+|                                  |           | `get_ouput_artifact`                  |            |
+|                                  |           | `get_output_artifact_by_uid`          |            |
