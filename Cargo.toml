@@ -9,7 +9,7 @@ description = "Argoflows lets you seamlessly integrate and manage Argo Workflows
 documentation = "https://docs.rs/argoflows"
 keywords = ["argo",  "client", "http", "workflows"]
 readme = "README.md"
-repository = "https://github.io/gauravgahlot/argoflows"
+repository = "https://github.com/gauravgahlot/argoflows"
 include = [    
     "Cargo.toml",
     "LICENSE",
