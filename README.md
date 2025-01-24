@@ -87,9 +87,9 @@
 | `WorkflowTemplateService`        | ✅        | `create_workflow_template`            |            |
 |                                  | ✅        | `delete_workflow_template`            |            |
 |                                  | ✅        | `get_workflow_template`               |            |
-|                                  |           | `lint_workflow_template`              |            |
+|                                  | ✅        | `lint_workflow_template`              |            |
 |                                  | ✅        | `list_workflow_templates`             |            |
-|                                  |           | `update_workflow_template`            |            |
+|                                  | ✅        | `update_workflow_template`            |            |
 |                                  |           |                                       |            |
 | `ArtifactService`                |           | `get_artifact_file`                   |            |
 |                                  |           | `get_input_artifact`                  |            |
