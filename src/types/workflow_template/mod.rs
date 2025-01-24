@@ -9,3 +9,6 @@ pub use self::r#ref::WorkflowTemplateRef;
 
 mod template;
 pub use self::template::WorkflowTemplate;
+
+mod update_request;
+pub use self::update_request::UpdateRequest;
