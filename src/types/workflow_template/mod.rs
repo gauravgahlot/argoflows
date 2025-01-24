@@ -1,6 +1,9 @@
 mod create_request;
 pub use self::create_request::CreateRequest;
 
+mod lint_request;
+pub use self::lint_request::LintRequest;
+
 mod list;
 pub use self::list::WorkflowTemplateList;
 

@@ -4,12 +4,14 @@ use crate::config::Config;
 use crate::error::{
     workflow_template::{
         CreateWorkflowTemplateError, DeleteWorkflowTemplateError, GetWorkflowTemplateError,
-        ListWorkflowTemplatesError, UpdateWorkflowTemplateError,
+        LintWorkflowTemplateError, ListWorkflowTemplatesError, UpdateWorkflowTemplateError,
     },
     Error,
 };
 use crate::types::{
-    workflow_template::{CreateRequest, UpdateRequest, WorkflowTemplate, WorkflowTemplateList},
+    workflow_template::{
+        CreateRequest, LintRequest, UpdateRequest, WorkflowTemplate, WorkflowTemplateList,
+    },
     ListOptions, ResponseContent,
 };
 
@@ -163,6 +165,44 @@ pub fn get_workflow_template(
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let entity: Option<GetWorkflowTemplateError> = serde_json::from_str(&content).ok();
+        let error = ResponseContent {
+            status,
+            content,
+            entity,
+        };
+        Err(Error::Response(error))
+    }
+}
+
+pub fn workflow_template_service_lint_workflow_template(
+    config: &Config,
+    namespace: &str,
+    body: LintRequest,
+) -> Result<WorkflowTemplate, Error<LintWorkflowTemplateError>> {
+    let uri = format!(
+        "{}/api/v1/workflow-templates/{namespace}/lint",
+        config.host,
+        namespace = super::urlencode(namespace)
+    );
+
+    let mut req_builder = config
+        .client
+        .request(reqwest::Method::POST, uri.as_str())
+        .json(&body);
+
+    if let Some(bearer_token) = &config.bearer_token {
+        req_builder = req_builder.bearer_auth(bearer_token);
+    }
+
+    let req = req_builder.build()?;
+    let resp = config.client.execute(req)?;
+    let status = resp.status();
+    let content = resp.text()?;
+
+    if !status.is_client_error() && !status.is_server_error() {
+        serde_json::from_str(&content).map_err(Error::from)
+    } else {
+        let entity: Option<LintWorkflowTemplateError> = serde_json::from_str(&content).ok();
         let error = ResponseContent {
             status,
             content,
