@@ -20,7 +20,7 @@ pub struct HTTPArtifact {
 }
 
 impl HTTPArtifact {
-    pub fn new(url: String) -> Self {
+    pub fn new(url: &str) -> Self {
         HTTPArtifact {
             url,
             ..Default::default()

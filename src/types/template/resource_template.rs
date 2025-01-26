@@ -44,7 +44,7 @@ pub struct ResourceTemplate {
 }
 
 impl ResourceTemplate {
-    pub fn new(action: String) -> ResourceTemplate {
+    pub fn new(action: &str) -> ResourceTemplate {
         ResourceTemplate {
             action,
             failure_condition: None,

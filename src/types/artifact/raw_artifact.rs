@@ -10,7 +10,7 @@ pub struct RawArtifact {
 }
 
 impl RawArtifact {
-    pub fn new(data: String) -> Self {
+    pub fn new(data: &str) -> Self {
         RawArtifact { data }
     }
 }

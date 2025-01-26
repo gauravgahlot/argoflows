@@ -32,7 +32,7 @@ pub struct Prometheus {
 }
 
 impl Prometheus {
-    pub fn new(help: String, name: String) -> Self {
+    pub fn new(help: &str, name: &str) -> Self {
         Prometheus {
             help,
             name,

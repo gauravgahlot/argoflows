@@ -54,7 +54,7 @@ pub struct GitArtifact {
 }
 
 impl GitArtifact {
-    pub fn new(repo: String) -> GitArtifact {
+    pub fn new(repo: &str) -> GitArtifact {
         GitArtifact {
             repo,
             ..Default::default()

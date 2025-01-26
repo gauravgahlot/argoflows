@@ -150,7 +150,7 @@ pub struct ScriptTemplate {
 }
 
 impl ScriptTemplate {
-    pub fn new(image: String, source: String) -> ScriptTemplate {
+    pub fn new(image: &str, source: String) -> ScriptTemplate {
         ScriptTemplate {
             args: None,
             command: None,

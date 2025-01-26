@@ -85,7 +85,7 @@ pub struct ArtifactPaths {
 }
 
 impl ArtifactPaths {
-    pub fn new(name: String) -> ArtifactPaths {
+    pub fn new(name: &str) -> ArtifactPaths {
         ArtifactPaths {
             name,
             ..Default::default()

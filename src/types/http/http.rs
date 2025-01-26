@@ -37,7 +37,7 @@ pub struct HTTP {
 }
 
 impl HTTP {
-    pub fn new(url: String) -> Self {
+    pub fn new(url: &str) -> Self {
         HTTP {
             url,
             ..Default::default()

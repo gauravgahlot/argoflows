@@ -20,7 +20,7 @@ pub struct Gauge {
 }
 
 impl Gauge {
-    pub fn new(realtime: bool, value: String) -> Gauge {
+    pub fn new(realtime: bool, value: &str) -> Gauge {
         Gauge {
             realtime,
             value,

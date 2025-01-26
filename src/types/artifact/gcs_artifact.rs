@@ -20,7 +20,7 @@ pub struct GCSArtifact {
 }
 
 impl GCSArtifact {
-    pub fn new(key: String) -> Self {
+    pub fn new(key: &str) -> Self {
         GCSArtifact {
             key,
             ..Default::default()

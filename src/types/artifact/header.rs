@@ -14,7 +14,7 @@ pub struct Header {
 }
 
 impl Header {
-    pub fn new(name: String, value: String) -> Self {
+    pub fn new(name: &str, value: &str) -> Self {
         Header { name, value }
     }
 }

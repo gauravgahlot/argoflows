@@ -13,7 +13,7 @@ pub struct HTTPHeader {
 }
 
 impl HTTPHeader {
-    pub fn new(name: String) -> Self {
+    pub fn new(name: &str) -> Self {
         HTTPHeader {
             name,
             ..Default::default()

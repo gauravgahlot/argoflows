@@ -44,7 +44,7 @@ pub struct OSSArtifact {
 }
 
 impl OSSArtifact {
-    pub fn new(key: String) -> Self {
+    pub fn new(key: &str) -> Self {
         OSSArtifact {
             key,
             ..Default::default()

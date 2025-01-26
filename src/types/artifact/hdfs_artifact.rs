@@ -50,7 +50,7 @@ pub struct HDFSArtifact {
 }
 
 impl HDFSArtifact {
-    pub fn new(path: String) -> Self {
+    pub fn new(path: &str) -> Self {
         HDFSArtifact {
             path,
             ..Default::default()

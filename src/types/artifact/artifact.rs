@@ -90,7 +90,7 @@ pub struct Artifact {
 }
 
 impl Artifact {
-    pub fn new(name: String) -> Self {
+    pub fn new(name: &str) -> Self {
         Artifact {
             name,
             ..Default::default()

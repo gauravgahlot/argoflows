@@ -9,7 +9,7 @@ pub struct Counter {
 }
 
 impl Counter {
-    pub fn new(value: String) -> Counter {
+    pub fn new(value: &str) -> Counter {
         Counter { value }
     }
 }

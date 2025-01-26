@@ -29,7 +29,7 @@ pub struct AzureArtifact {
 }
 
 impl AzureArtifact {
-    pub fn new(blob: String, container: String, endpoint: String) -> Self {
+    pub fn new(blob: &str, container: &str, endpoint: &str) -> Self {
         AzureArtifact {
             blob,
             container,
