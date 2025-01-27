@@ -32,8 +32,8 @@ pub struct AzureArtifactRepository {
 impl AzureArtifactRepository {
     pub fn new(container: &str, endpoint: &str) -> Self {
         AzureArtifactRepository {
-            container,
-            endpoint,
+            container: container.to_string(),
+            endpoint: endpoint.to_string(),
             ..Default::default()
         }
     }

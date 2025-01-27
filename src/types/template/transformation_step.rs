@@ -9,6 +9,6 @@ pub struct TransformationStep {
 
 impl TransformationStep {
     pub fn new(expression: &str) -> Self {
-        TransformationStep { expression }
+        TransformationStep { expression: expression.to_string() }
     }
 }

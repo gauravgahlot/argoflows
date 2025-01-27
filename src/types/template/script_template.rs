@@ -150,13 +150,13 @@ pub struct ScriptTemplate {
 }
 
 impl ScriptTemplate {
-    pub fn new(image: &str, source: String) -> ScriptTemplate {
+    pub fn new(image: &str, source: &str) -> ScriptTemplate {
         ScriptTemplate {
             args: None,
             command: None,
             env: None,
             env_from: None,
-            image,
+            image: image.to_string(),
             image_pull_policy: None,
             lifecycle: None,
             liveness_probe: None,
@@ -165,7 +165,7 @@ impl ScriptTemplate {
             readiness_probe: None,
             resources: None,
             security_context: None,
-            source,
+            source: source.to_string(),
             startup_probe: None,
             stdin: None,
             stdin_once: None,

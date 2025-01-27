@@ -46,7 +46,7 @@ pub struct ResourceTemplate {
 impl ResourceTemplate {
     pub fn new(action: &str) -> ResourceTemplate {
         ResourceTemplate {
-            action,
+            action: action.to_string(),
             failure_condition: None,
             flags: None,
             manifest: None,

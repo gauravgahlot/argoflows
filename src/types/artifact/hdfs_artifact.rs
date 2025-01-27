@@ -52,7 +52,7 @@ pub struct HDFSArtifact {
 impl HDFSArtifact {
     pub fn new(path: &str) -> Self {
         HDFSArtifact {
-            path,
+            path: path.to_string(),
             ..Default::default()
         }
     }

@@ -31,9 +31,9 @@ pub struct AzureArtifact {
 impl AzureArtifact {
     pub fn new(blob: &str, container: &str, endpoint: &str) -> Self {
         AzureArtifact {
-            blob,
-            container,
-            endpoint,
+            blob: blob.to_string(),
+            container: container.to_string(),
+            endpoint: endpoint.to_string(),
             ..Default::default()
         }
     }

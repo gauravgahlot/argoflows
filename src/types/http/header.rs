@@ -15,7 +15,7 @@ pub struct HTTPHeader {
 impl HTTPHeader {
     pub fn new(name: &str) -> Self {
         HTTPHeader {
-            name,
+            name: name.to_string(),
             ..Default::default()
         }
     }

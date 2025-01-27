@@ -64,7 +64,7 @@ pub struct DAGTask {
 impl DAGTask {
     pub fn new(name: &str) -> Self {
         DAGTask {
-            name,
+            name: name.to_string(),
             ..Default::default()
         }
     }

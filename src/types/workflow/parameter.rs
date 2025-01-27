@@ -46,7 +46,7 @@ impl Parameter {
             description: None,
             r#enum: None,
             global_name: None,
-            name,
+            name: name.to_string(),
             value: None,
             value_from: None,
         }

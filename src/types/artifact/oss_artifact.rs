@@ -46,7 +46,7 @@ pub struct OSSArtifact {
 impl OSSArtifact {
     pub fn new(key: &str) -> Self {
         OSSArtifact {
-            key,
+            key: key.to_string(),
             ..Default::default()
         }
     }

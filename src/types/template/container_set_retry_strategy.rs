@@ -15,7 +15,7 @@ pub struct ContainerSetRetryStrategy {
 impl ContainerSetRetryStrategy {
     pub fn new(retries: &str) -> Self {
         ContainerSetRetryStrategy {
-            retries,
+            retries: retries.to_string(),
             ..Default::default()
         }
     }

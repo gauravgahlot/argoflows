@@ -34,8 +34,8 @@ pub struct Prometheus {
 impl Prometheus {
     pub fn new(help: &str, name: &str) -> Self {
         Prometheus {
-            help,
-            name,
+            help: help.to_string(),
+            name: name.to_string(),
             ..Default::default()
         }
     }

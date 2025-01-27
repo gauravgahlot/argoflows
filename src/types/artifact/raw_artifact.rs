@@ -11,6 +11,6 @@ pub struct RawArtifact {
 
 impl RawArtifact {
     pub fn new(data: &str) -> Self {
-        RawArtifact { data }
+        RawArtifact { data: data.to_string(), }
     }
 }

@@ -39,7 +39,7 @@ pub struct HTTP {
 impl HTTP {
     pub fn new(url: &str) -> Self {
         HTTP {
-            url,
+            url:  url.to_string(),
             ..Default::default()
         }
     }

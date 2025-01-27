@@ -23,7 +23,7 @@ impl Gauge {
     pub fn new(realtime: bool, value: &str) -> Gauge {
         Gauge {
             realtime,
-            value,
+            value: value.to_string(),
             ..Default::default()
         }
     }
