@@ -158,9 +158,9 @@ pub struct UserContainer {
 }
 
 impl UserContainer {
-    pub fn new(name: String) -> Self {
+    pub fn new(name: &str) -> Self {
         UserContainer {
-            name,
+            name: name.to_string(),
             ..Default::default()
         }
     }

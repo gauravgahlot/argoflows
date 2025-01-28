@@ -17,10 +17,10 @@ pub struct ArtifactoryArtifact {
 }
 
 impl ArtifactoryArtifact {
-    pub fn new(url: String) -> Self {
+    pub fn new(url: &str) -> Self {
         ArtifactoryArtifact {
             password_secret: None,
-            url,
+            url : url.to_string(),
             username_secret: None,
         }
     }

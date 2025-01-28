@@ -13,7 +13,7 @@ pub struct Histogram {
 }
 
 impl Histogram {
-    pub fn new(buckets: Vec<f32>, value: String) -> Histogram {
-        Histogram { buckets, value }
+    pub fn new(buckets: Vec<f32>, value: &str) -> Histogram {
+        Histogram { buckets, value: value.to_string() }
     }
 }

@@ -20,9 +20,9 @@ pub struct HTTPArtifact {
 }
 
 impl HTTPArtifact {
-    pub fn new(url: String) -> Self {
+    pub fn new(url: &str) -> Self {
         HTTPArtifact {
-            url,
+            url: url.to_string(),
             ..Default::default()
         }
     }

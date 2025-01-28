@@ -14,7 +14,7 @@ pub struct OAuth2EndpointParam {
 }
 
 impl OAuth2EndpointParam {
-    pub fn new(key: String, value: Option<String>) -> Self {
-        OAuth2EndpointParam { key, value }
+    pub fn new(key: &str, value: Option<String>) -> Self {
+        OAuth2EndpointParam { key: key.to_string(), value }
     }
 }

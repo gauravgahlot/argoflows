@@ -8,7 +8,7 @@ pub struct TransformationStep {
 }
 
 impl TransformationStep {
-    pub fn new(expression: String) -> Self {
-        TransformationStep { expression }
+    pub fn new(expression: &str) -> Self {
+        TransformationStep { expression: expression.to_string() }
     }
 }

@@ -7,9 +7,9 @@ pub struct LabelValueFrom {
 }
 
 impl LabelValueFrom {
-    pub fn new(expression: String) -> LabelValueFrom {
+    pub fn new(expression: &str) -> LabelValueFrom {
         LabelValueFrom {
-            expression,
+            expression: expression.to_string(),
         }
     }
 }

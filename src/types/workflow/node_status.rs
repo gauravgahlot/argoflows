@@ -136,11 +136,11 @@ pub struct NodeStatus {
 }
 
 impl NodeStatus {
-    pub fn new(id: String, name: String, r#type: String) -> Self {
+    pub fn new(id: &str, name: &str, r#type: &str) -> Self {
         NodeStatus {
-            id,
-            name,
-            r#type,
+            id: id.to_string(),
+            name: name.to_string(),
+            r#type: r#type.to_string(),
             ..Default::default()
         }
     }

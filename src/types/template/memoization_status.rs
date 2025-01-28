@@ -17,11 +17,11 @@ pub struct MemoizationStatus {
 }
 
 impl MemoizationStatus {
-    pub fn new(cache_name: String, hit: bool, key: String) -> Self {
+    pub fn new(cache_name: &str, hit: bool, key: &str) -> Self {
         MemoizationStatus {
-            cache_name,
+            cache_name: cache_name.to_string(),
             hit,
-            key,
+            key: key.to_string(),
         }
     }
 }

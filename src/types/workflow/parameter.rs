@@ -40,13 +40,13 @@ pub struct Parameter {
 
 impl Parameter {
     /// Parameter indicate a passed string parameter to a service template with an optional default value
-    pub fn new(name: String) -> Parameter {
+    pub fn new(name: &str) -> Parameter {
         Parameter {
             default: None,
             description: None,
             r#enum: None,
             global_name: None,
-            name,
+            name: name.to_string(),
             value: None,
             value_from: None,
         }

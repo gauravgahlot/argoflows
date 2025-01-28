@@ -154,9 +154,9 @@ pub struct ContainerNode {
 }
 
 impl ContainerNode {
-    pub fn new(name: String) -> Self {
+    pub fn new(name: &str) -> Self {
         ContainerNode {
-            name,
+            name: name.to_string(),
             ..Default::default()
         }
     }
