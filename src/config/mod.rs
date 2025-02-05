@@ -7,6 +7,7 @@ const DEFAULT_HOST: &str = "https://localhost:2746";
 #[derive(Debug, Default)]
 pub struct ConfigBuilder {
     accept_invalid_certs: bool,
+    allow_insecure: bool, // New flag to allow HTTP connections
     bearer_token: Option<String>,
     host: String,
 }
@@ -27,6 +28,13 @@ impl ConfigBuilder {
         if self.accept_invalid_certs {
             builder = builder.danger_accept_invalid_certs(true);
         }
+
+          // Allow HTTP connection if explicitly enabled
+        let host = if self.allow_insecure && self.host.starts_with("https://") {
+            self.host.replacen("https://", "http://", 1)
+        } else {
+            self.host
+        };
 
         let client = builder.build()?;
         Ok(Config {
@@ -52,6 +60,12 @@ impl ConfigBuilder {
     /// Defaults to `false`.
     pub fn danger_accept_invalid_certs(mut self, allow: bool) -> Self {
         self.accept_invalid_certs = allow;
+        self
+    }
+
+    /// Allows connecting to an Argo Server over HTTP (insecure connection).
+    pub fn allow_insecure(mut self, allow: bool) -> Self {
+        self.allow_insecure = allow;
         self
     }
 }
