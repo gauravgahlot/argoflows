@@ -43,6 +43,12 @@ pub use self::pod_gc::PodGC;
 mod spec;
 pub use self::spec::WorkflowSpec;
 
+mod submit_options;
+pub use self::submit_options::SubmitOptions;
+
+mod submit_request;
+pub use self::submit_request::SubmitRequest;
+
 mod template_ref;
 pub use self::template_ref::TemplateRef;
 
