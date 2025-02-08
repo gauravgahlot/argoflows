@@ -76,7 +76,7 @@
 |                                  | ✅        | `resume_workflow`                     |            |
 |                                  | ✅        | `retry_workflow`                      |            |
 |                                  | ✅        | `set_workflow`                        |            |
-|                                  |           | `stop_workflow`                       |            |
+|                                  | ✅        | `stop_workflow`                       |            |
 |                                  | ✅        | `submit_workflow`                     |            |
 |                                  |           | `suspend_workflow`                    |            |
 |                                  |           | `terminate_workflow`                  |            |

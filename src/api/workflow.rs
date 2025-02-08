@@ -5,14 +5,14 @@ use crate::error::{
     workflow::{
         CreateWorkflowError, DeleteWorkflowError, GetWorkflowError, LintWorkflowError,
         ListWorkflowsError, ResubmitWorkflowError, ResumeWorkflowError, RetryWorkflowError,
-        SetWorkflowError, SubmitWorkflowError,
+        SetWorkflowError, StopWorkflowError, SubmitWorkflowError,
     },
     Error,
 };
 use crate::types::{
     workflow::{
         CreateRequest, LintRequest, ResubmitRequest, ResumeRequest, RetryRequest, SetRequest,
-        SubmitRequest, Workflow, WorkflowList,
+        StopRequest, SubmitRequest, Workflow, WorkflowList,
     },
     ListOptions, ResponseContent,
 };
@@ -458,6 +458,44 @@ pub fn set_workflow(
     }
 }
 
+pub fn stop_workflow(
+    config: &Config,
+    namespace: &str,
+    name: &str,
+    body: StopRequest,
+) -> Result<Workflow, Error<StopWorkflowError>> {
+    let uri = format!(
+        "{}/api/v1/workflows/{namespace}/{name}/stop",
+        config.host,
+        namespace = super::urlencode(namespace),
+        name = super::urlencode(name)
+    );
+    let mut req_builder = config
+        .client
+        .request(reqwest::Method::PUT, uri.as_str())
+        .json(&body);
+
+    if let Some(bearer_token) = &config.bearer_token {
+        req_builder = req_builder.bearer_auth(bearer_token);
+    }
+
+    let req = req_builder.build()?;
+    let res = config.client.execute(req)?;
+    let status = res.status();
+    let content = res.text()?;
+
+    if !status.is_client_error() && !status.is_server_error() {
+        serde_json::from_str(&content).map_err(Error::from)
+    } else {
+        let entity: Option<StopWorkflowError> = serde_json::from_str(&content).ok();
+        let error = ResponseContent {
+            status: status,
+            content: content,
+            entity: entity,
+        };
+        Err(Error::Response(error))
+    }
+}
 
 pub fn submit_workflow(
     config: &Config,

@@ -58,6 +58,9 @@ pub use self::set_request::SetRequest;
 mod spec;
 pub use self::spec::WorkflowSpec;
 
+mod stop_request;
+pub use self::stop_request::StopRequest;
+
 mod submit_options;
 pub use self::submit_options::SubmitOptions;
 
