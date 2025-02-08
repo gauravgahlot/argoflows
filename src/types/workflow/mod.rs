@@ -52,6 +52,9 @@ pub use self::resume_request::ResumeRequest;
 mod retry_request;
 pub use self::retry_request::RetryRequest;
 
+mod set_request;
+pub use self::set_request::SetRequest;
+
 mod spec;
 pub use self::spec::WorkflowSpec;
 
