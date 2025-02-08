@@ -49,6 +49,9 @@ pub use self::resubmit_request::ResubmitRequest;
 mod resume_request;
 pub use self::resume_request::ResumeRequest;
 
+mod retry_request;
+pub use self::retry_request::RetryRequest;
+
 mod spec;
 pub use self::spec::WorkflowSpec;
 
