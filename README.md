@@ -78,7 +78,7 @@
 |                                  | ✅        | `set_workflow`                        |            |
 |                                  | ✅        | `stop_workflow`                       |            |
 |                                  | ✅        | `submit_workflow`                     |            |
-|                                  |           | `suspend_workflow`                    |            |
+|                                  | ✅        | `suspend_workflow`                    |            |
 |                                  |           | `terminate_workflow`                  |            |
 |                                  |           | `watch_events`                        |            |
 |                                  |           | `watch_workflows`                     |            |

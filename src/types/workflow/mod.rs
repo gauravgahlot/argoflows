@@ -67,6 +67,9 @@ pub use self::submit_options::SubmitOptions;
 mod submit_request;
 pub use self::submit_request::SubmitRequest;
 
+mod suspend_request;
+pub use self::suspend_request::SuspendRequest;
+
 mod template_ref;
 pub use self::template_ref::TemplateRef;
 
