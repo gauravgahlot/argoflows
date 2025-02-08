@@ -72,7 +72,7 @@
 |                                  | ✅        | `lint_workflow`                       |            |
 |                                  | ✅        | `list_workflows`                      |            |
 |                                  | ❌        | `pod_logs`                            | DEPRECATED |
-|                                  |           | `resubmit_workflow`                   |            |
+|                                  | ✅        | `resubmit_workflow`                   |            |
 |                                  |           | `resume_workflow`                     |            |
 |                                  |           | `retry_workflow`                      |            |
 |                                  |           | `set_workflow`                        |            |

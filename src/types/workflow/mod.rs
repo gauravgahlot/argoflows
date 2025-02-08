@@ -43,6 +43,9 @@ pub use self::parameter::Parameter;
 mod pod_gc;
 pub use self::pod_gc::PodGC;
 
+mod resubmit_request;
+pub use self::resubmit_request::ResubmitRequest;
+
 mod spec;
 pub use self::spec::WorkflowSpec;
 

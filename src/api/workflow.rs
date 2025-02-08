@@ -4,12 +4,14 @@ use crate::config::Config;
 use crate::error::{
     workflow::{
         CreateWorkflowError, DeleteWorkflowError, GetWorkflowError, LintWorkflowError,
-        ListWorkflowsError, SubmitWorkflowError,
+        ListWorkflowsError, ResubmitWorkflowError, SubmitWorkflowError,
     },
     Error,
 };
 use crate::types::{
-    workflow::{CreateRequest, LintRequest, SubmitRequest, Workflow, WorkflowList},
+    workflow::{
+        CreateRequest, LintRequest, ResubmitRequest, SubmitRequest, Workflow, WorkflowList,
+    },
     ListOptions, ResponseContent,
 };
 
@@ -288,6 +290,46 @@ pub fn list_workflows(
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let entity: Option<ListWorkflowsError> = serde_json::from_str(&content).ok();
+        let error = ResponseContent {
+            status,
+            content,
+            entity,
+        };
+        Err(Error::Response(error))
+    }
+}
+
+pub fn resubmit_workflow(
+    config: &Config,
+    namespace: &str,
+    name: &str,
+    body: ResubmitRequest,
+) -> Result<Workflow, Error<ResubmitWorkflowError>> {
+    let uri = format!(
+        "{}/api/v1/workflows/{namespace}/{name}/resubmit",
+        config.host,
+        namespace = super::urlencode(namespace),
+        name = super::urlencode(name)
+    );
+
+    let mut req_builder = config
+        .client
+        .request(reqwest::Method::PUT, uri.as_str())
+        .json(&body);
+
+    if let Some(bearer_token) = &config.bearer_token {
+        req_builder = req_builder.bearer_auth(bearer_token);
+    }
+
+    let req = req_builder.build()?;
+    let res = config.client.execute(req)?;
+    let status = res.status();
+    let content = res.text()?;
+
+    if !status.is_client_error() && !status.is_server_error() {
+        serde_json::from_str(&content).map_err(Error::from)
+    } else {
+        let entity: Option<ResubmitWorkflowError> = serde_json::from_str(&content).ok();
         let error = ResponseContent {
             status,
             content,
