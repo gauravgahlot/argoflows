@@ -19,6 +19,9 @@ pub use label_value_from::LabelValueFrom;
 mod lifecycle_hook;
 pub use self::lifecycle_hook::LifecycleHook;
 
+mod lint_request;
+pub use self::lint_request::LintRequest;
+
 mod list;
 pub use self::list::WorkflowList;
 
