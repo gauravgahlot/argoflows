@@ -73,6 +73,9 @@ pub use self::suspend_request::SuspendRequest;
 mod template_ref;
 pub use self::template_ref::TemplateRef;
 
+mod terminate_request;
+pub use self::terminate_request::TerminateRequest;
+
 mod ttl_strategy;
 pub use self::ttl_strategy::TTLStrategy;
 

@@ -6,13 +6,14 @@ use crate::error::{
         CreateWorkflowError, DeleteWorkflowError, GetWorkflowError, LintWorkflowError,
         ListWorkflowsError, ResubmitWorkflowError, ResumeWorkflowError, RetryWorkflowError,
         SetWorkflowError, StopWorkflowError, SubmitWorkflowError, SuspendWorkflowError,
+        TerminateWorkflowError,
     },
     Error,
 };
 use crate::types::{
     workflow::{
         CreateRequest, LintRequest, ResubmitRequest, ResumeRequest, RetryRequest, SetRequest,
-        StopRequest, SubmitRequest, SuspendRequest, Workflow, WorkflowList,
+        StopRequest, SubmitRequest, SuspendRequest, TerminateRequest, Workflow, WorkflowList,
     },
     ListOptions, ResponseContent,
 };
@@ -566,6 +567,46 @@ pub fn suspend_workflow(
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let entity: Option<SuspendWorkflowError> = serde_json::from_str(&content).ok();
+        let error = ResponseContent {
+            status,
+            content,
+            entity,
+        };
+        Err(Error::Response(error))
+    }
+}
+
+pub async fn terminate_workflow(
+    config: &Config,
+    namespace: &str,
+    name: &str,
+    body: TerminateRequest,
+) -> Result<Workflow, Error<TerminateWorkflowError>> {
+    let uri = format!(
+        "{}/api/v1/workflows/{namespace}/{name}/terminate",
+        config.host,
+        namespace = super::urlencode(namespace),
+        name = super::urlencode(name)
+    );
+
+    let mut req_builder = config
+        .client
+        .request(reqwest::Method::PUT, uri.as_str())
+        .json(&body);
+
+    if let Some(bearer_token) = &config.bearer_token {
+        req_builder = req_builder.bearer_auth(bearer_token);
+    }
+
+    let req = req_builder.build()?;
+    let res = config.client.execute(req)?;
+    let status = res.status();
+    let content = res.text()?;
+
+    if !status.is_client_error() && !status.is_server_error() {
+        serde_json::from_str(&content).map_err(Error::from)
+    } else {
+        let entity: Option<TerminateWorkflowError> = serde_json::from_str(&content).ok();
         let error = ResponseContent {
             status,
             content,
