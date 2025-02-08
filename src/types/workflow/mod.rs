@@ -46,6 +46,9 @@ pub use self::pod_gc::PodGC;
 mod resubmit_request;
 pub use self::resubmit_request::ResubmitRequest;
 
+mod resume_request;
+pub use self::resume_request::ResumeRequest;
+
 mod spec;
 pub use self::spec::WorkflowSpec;
 

@@ -73,7 +73,7 @@
 |                                  | ✅        | `list_workflows`                      |            |
 |                                  | ❌        | `pod_logs`                            | DEPRECATED |
 |                                  | ✅        | `resubmit_workflow`                   |            |
-|                                  |           | `resume_workflow`                     |            |
+|                                  | ✅        | `resume_workflow`                     |            |
 |                                  |           | `retry_workflow`                      |            |
 |                                  |           | `set_workflow`                        |            |
 |                                  |           | `stop_workflow`                       |            |
