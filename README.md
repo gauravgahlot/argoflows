@@ -69,7 +69,7 @@
 | `WorkflowService`                | ✅        | `create_workflow`                     |            |
 |                                  | ✅        | `delete_workflow`                     |            |
 |                                  | ✅        | `get_workflow`                        |            |
-|                                  |           | `lint_workflow`                       |            |
+|                                  | ✅        | `lint_workflow`                       |            |
 |                                  | ✅        | `list_workflows`                      |            |
 |                                  | ❌        | `pod_logs`                            | DEPRECATED |
 |                                  |           | `resubmit_workflow`                   |            |
@@ -77,7 +77,7 @@
 |                                  |           | `retry_workflow`                      |            |
 |                                  |           | `set_workflow`                        |            |
 |                                  |           | `stop_workflow`                       |            |
-|                                  |           | `submit_workflow`                     |            |
+|                                  | ✅        | `submit_workflow`                     |            |
 |                                  |           | `suspend_workflow`                    |            |
 |                                  |           | `terminate_workflow`                  |            |
 |                                  |           | `watch_events`                        |            |

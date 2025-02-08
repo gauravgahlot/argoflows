@@ -24,8 +24,10 @@ pub fn create_workflow(
         namespace = super::urlencode(namespace)
     );
 
-    let mut req_builder = config.client.request(reqwest::Method::POST, uri.as_str());
-    req_builder = req_builder.json(&body);
+    let mut req_builder = config
+        .client
+        .request(reqwest::Method::POST, uri.as_str())
+        .json(&body);
 
     if let Some(bearer_token) = &config.bearer_token {
         req_builder = req_builder.bearer_auth(bearer_token);
