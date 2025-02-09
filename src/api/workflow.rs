@@ -2,23 +2,9 @@ use k8s_openapi::api::core::v1 as corev1;
 use k8s_openapi::apimachinery::pkg::apis::meta::v1 as metav1;
 
 use crate::config::Config;
-use crate::error::{
-    workflow::{
-        CreateWorkflowError, DeleteWorkflowError, GetWorkflowError, LintWorkflowError,
-        ListWorkflowsError, ResubmitWorkflowError, ResumeWorkflowError, RetryWorkflowError,
-        SetWorkflowError, StopWorkflowError, SubmitWorkflowError, SuspendWorkflowError,
-        TerminateWorkflowError, WatchEventsError, WatchWorkflowsError,
-    },
-    Error,
-};
-use crate::types::{
-    workflow::{
-        CreateRequest, LintRequest, ResubmitRequest, ResumeRequest, RetryRequest, SetRequest,
-        StopRequest, StreamWatchEvent, SubmitRequest, SuspendRequest, TerminateRequest, Workflow,
-        WorkflowList,
-    },
-    ListOptions, ResponseContent,
-};
+use crate::error::{workflow::*, Error};
+use crate::types::LogOptions;
+use crate::types::{workflow::*, ListOptions, ResponseContent};
 
 pub fn create_workflow(
     config: &Config,
@@ -700,37 +686,37 @@ pub fn watch_workflows(
     let mut req_builder = config.client.request(reqwest::Method::GET, uri.as_str());
 
     let list_options = list_options.unwrap_or_default();
-    if let Some(ref val) = list_options.label_selector {
+    if let Some(val) = list_options.label_selector {
         req_builder = req_builder.query(&[("listOptions.labelSelector", &val.to_string())]);
     }
-    if let Some(ref val) = list_options.field_selector {
+    if let Some(val) = list_options.field_selector {
         req_builder = req_builder.query(&[("listOptions.fieldSelector", &val.to_string())]);
     }
-    if let Some(ref val) = list_options.watch {
+    if let Some(val) = list_options.watch {
         req_builder = req_builder.query(&[("listOptions.watch", &val.to_string())]);
     }
-    if let Some(ref val) = list_options.allow_watch_bookmarks {
+    if let Some(val) = list_options.allow_watch_bookmarks {
         req_builder = req_builder.query(&[("listOptions.allowWatchBookmarks", &val.to_string())]);
     }
-    if let Some(ref val) = list_options.resource_version {
+    if let Some(val) = list_options.resource_version {
         req_builder = req_builder.query(&[("listOptions.resourceVersion", &val.to_string())]);
     }
-    if let Some(ref val) = list_options.resource_version_match {
+    if let Some(val) = list_options.resource_version_match {
         req_builder = req_builder.query(&[("listOptions.resourceVersionMatch", &val.to_string())]);
     }
-    if let Some(ref val) = list_options.timeout_seconds {
+    if let Some(val) = list_options.timeout_seconds {
         req_builder = req_builder.query(&[("listOptions.timeoutSeconds", &val.to_string())]);
     }
-    if let Some(ref val) = list_options.limit {
+    if let Some(val) = list_options.limit {
         req_builder = req_builder.query(&[("listOptions.limit", &val.to_string())]);
     }
-    if let Some(ref val) = list_options.r#continue {
+    if let Some(val) = list_options.r#continue {
         req_builder = req_builder.query(&[("listOptions.continue", &val.to_string())]);
     }
-    if let Some(ref val) = list_options.send_initial_events {
+    if let Some(val) = list_options.send_initial_events {
         req_builder = req_builder.query(&[("listOptions.sendInitialEvents", &val.to_string())]);
     }
-    if let Some(ref val) = fields {
+    if let Some(val) = fields {
         req_builder = req_builder.query(&[("fields", &val.to_string())]);
     }
 
@@ -747,6 +733,90 @@ pub fn watch_workflows(
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let entity: Option<WatchWorkflowsError> = serde_json::from_str(&content).ok();
+        let error = ResponseContent {
+            status,
+            content,
+            entity,
+        };
+        Err(Error::Response(error))
+    }
+}
+
+pub fn workflow_logs(
+    config: &Config,
+    namespace: &str,
+    name: &str,
+    pod_name: Option<&str>,
+    log_options: Option<LogOptions>,
+    grep: Option<&str>,
+    selector: Option<&str>,
+) -> Result<StreamLogEntry, Error<WorkflowLogsError>> {
+    let uri = format!(
+        "{}/api/v1/workflows/{namespace}/{name}/log",
+        config.host,
+        namespace = super::urlencode(namespace),
+        name = super::urlencode(name)
+    );
+
+    let mut req_builder = config.client.request(reqwest::Method::GET, uri.as_str());
+
+    let log_options = log_options.unwrap_or_default();
+    if let Some(val) = pod_name {
+        req_builder = req_builder.query(&[("podName", &val.to_string())]);
+    }
+    if let Some(val) = log_options.container {
+        req_builder = req_builder.query(&[("logOptions.container", &val.to_string())]);
+    }
+    if let Some(val) = log_options.follow {
+        req_builder = req_builder.query(&[("logOptions.follow", &val.to_string())]);
+    }
+    if let Some(val) = log_options.previous {
+        req_builder = req_builder.query(&[("logOptions.previous", &val.to_string())]);
+    }
+    if let Some(val) = log_options.since_seconds {
+        req_builder = req_builder.query(&[("logOptions.sinceSeconds", &val.to_string())]);
+    }
+    if let Some(val) = log_options.since_time_period_seconds {
+        req_builder = req_builder.query(&[("logOptions.sinceTime.seconds", &val.to_string())]);
+    }
+    if let Some(val) = log_options.since_time_period_nanos {
+        req_builder = req_builder.query(&[("logOptions.sinceTime.nanos", &val.to_string())]);
+    }
+    if let Some(val) = log_options.timestamps {
+        req_builder = req_builder.query(&[("logOptions.timestamps", &val.to_string())]);
+    }
+    if let Some(val) = log_options.tail_lines {
+        req_builder = req_builder.query(&[("logOptions.tailLines", &val.to_string())]);
+    }
+    if let Some(val) = log_options.limit_bytes {
+        req_builder = req_builder.query(&[("logOptions.limitBytes", &val.to_string())]);
+    }
+    if let Some(val) = log_options.insecure_skip_tls_verify_backend {
+        req_builder =
+            req_builder.query(&[("logOptions.insecureSkipTLSVerifyBackend", &val.to_string())]);
+    }
+
+    if let Some(val) = grep {
+        req_builder = req_builder.query(&[("grep", &val.to_string())]);
+    }
+
+    if let Some(val) = selector {
+        req_builder = req_builder.query(&[("selector", &val.to_string())]);
+    }
+
+    if let Some(bearer_token) = &config.bearer_token {
+        req_builder = req_builder.bearer_auth(bearer_token);
+    }
+
+    let req = req_builder.build()?;
+    let res = config.client.execute(req)?;
+    let status = res.status();
+    let content = res.text()?;
+
+    if !status.is_client_error() && !status.is_server_error() {
+        serde_json::from_str(&content).map_err(Error::from)
+    } else {
+        let entity: Option<WorkflowLogsError> = serde_json::from_str(&content).ok();
         let error = ResponseContent {
             status,
             content,

@@ -25,6 +25,9 @@ pub use self::lint_request::LintRequest;
 mod list;
 pub use self::list::WorkflowList;
 
+mod log_entry;
+pub use self::log_entry::*;
+
 mod metadata;
 pub use self::metadata::WorkflowMetadata;
 

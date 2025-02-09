@@ -36,6 +36,20 @@ pub struct ListOptions {
 }
 
 #[derive(Default)]
+pub struct LogOptions {
+    pub container: Option<String>,
+    pub follow: Option<bool>,
+    pub previous: Option<bool>,
+    pub since_seconds: Option<String>,
+    pub since_time_period_seconds: Option<String>,
+    pub since_time_period_nanos: Option<i32>,
+    pub timestamps: Option<bool>,
+    pub tail_lines: Option<String>,
+    pub limit_bytes: Option<String>,
+    pub insecure_skip_tls_verify_backend: Option<bool>,
+}
+
+#[derive(Default)]
 pub struct Preconditions {
     pub uid: Option<String>,
     pub resource_version: Option<String>,
