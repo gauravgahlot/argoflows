@@ -55,10 +55,31 @@ impl<T> From<reqwest::Error> for Error<T> {
 pub struct GatewayRuntimeError {
     #[serde(rename = "code", skip_serializing_if = "Option::is_none")]
     pub code: Option<i32>,
+
     #[serde(rename = "details", skip_serializing_if = "Option::is_none")]
     pub details: Option<Vec<GoogleProtobufAny>>,
+
     #[serde(rename = "error", skip_serializing_if = "Option::is_none")]
     pub error: Option<String>,
+
+    #[serde(rename = "message", skip_serializing_if = "Option::is_none")]
+    pub message: Option<String>,
+}
+
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+pub struct GatewayRuntimeStreamError {
+    #[serde(rename = "details", skip_serializing_if = "Option::is_none")]
+    pub details: Option<Vec<GoogleProtobufAny>>,
+
+    #[serde(rename = "grpc_code", skip_serializing_if = "Option::is_none")]
+    pub grpc_code: Option<i32>,
+
+    #[serde(rename = "http_code", skip_serializing_if = "Option::is_none")]
+    pub http_code: Option<i32>,
+
+    #[serde(rename = "http_status", skip_serializing_if = "Option::is_none")]
+    pub http_status: Option<String>,
+
     #[serde(rename = "message", skip_serializing_if = "Option::is_none")]
     pub message: Option<String>,
 }
@@ -68,6 +89,7 @@ pub struct GatewayRuntimeError {
 pub struct GoogleProtobufAny {
     #[serde(rename = "type_url", skip_serializing_if = "Option::is_none")]
     pub type_url: Option<String>,
+
     #[serde_as(as = "Option<serde_with::base64::Base64>")]
     #[serde(rename = "value", skip_serializing_if = "Option::is_none")]
     pub value: Option<Vec<u8>>,

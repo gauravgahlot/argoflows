@@ -7,14 +7,15 @@ use crate::error::{
         CreateWorkflowError, DeleteWorkflowError, GetWorkflowError, LintWorkflowError,
         ListWorkflowsError, ResubmitWorkflowError, ResumeWorkflowError, RetryWorkflowError,
         SetWorkflowError, StopWorkflowError, SubmitWorkflowError, SuspendWorkflowError,
-        TerminateWorkflowError, WatchEventsError,
+        TerminateWorkflowError, WatchEventsError, WatchWorkflowsError,
     },
     Error,
 };
 use crate::types::{
     workflow::{
         CreateRequest, LintRequest, ResubmitRequest, ResumeRequest, RetryRequest, SetRequest,
-        StopRequest, SubmitRequest, SuspendRequest, TerminateRequest, Workflow, WorkflowList,
+        StopRequest, StreamWatchEvent, SubmitRequest, SuspendRequest, TerminateRequest, Workflow,
+        WorkflowList,
     },
     ListOptions, ResponseContent,
 };
@@ -675,6 +676,77 @@ pub fn watch_events(
         serde_json::from_str(&content).map_err(Error::from)
     } else {
         let entity: Option<WatchEventsError> = serde_json::from_str(&content).ok();
+        let error = ResponseContent {
+            status,
+            content,
+            entity,
+        };
+        Err(Error::Response(error))
+    }
+}
+
+pub fn watch_workflows(
+    config: &Config,
+    namespace: &str,
+    list_options: Option<ListOptions>,
+    fields: Option<&str>,
+) -> Result<StreamWatchEvent, Error<WatchWorkflowsError>> {
+    let uri = format!(
+        "{}/api/v1/workflow-events/{namespace}",
+        config.host,
+        namespace = super::urlencode(namespace)
+    );
+
+    let mut req_builder = config.client.request(reqwest::Method::GET, uri.as_str());
+
+    let list_options = list_options.unwrap_or_default();
+    if let Some(ref val) = list_options.label_selector {
+        req_builder = req_builder.query(&[("listOptions.labelSelector", &val.to_string())]);
+    }
+    if let Some(ref val) = list_options.field_selector {
+        req_builder = req_builder.query(&[("listOptions.fieldSelector", &val.to_string())]);
+    }
+    if let Some(ref val) = list_options.watch {
+        req_builder = req_builder.query(&[("listOptions.watch", &val.to_string())]);
+    }
+    if let Some(ref val) = list_options.allow_watch_bookmarks {
+        req_builder = req_builder.query(&[("listOptions.allowWatchBookmarks", &val.to_string())]);
+    }
+    if let Some(ref val) = list_options.resource_version {
+        req_builder = req_builder.query(&[("listOptions.resourceVersion", &val.to_string())]);
+    }
+    if let Some(ref val) = list_options.resource_version_match {
+        req_builder = req_builder.query(&[("listOptions.resourceVersionMatch", &val.to_string())]);
+    }
+    if let Some(ref val) = list_options.timeout_seconds {
+        req_builder = req_builder.query(&[("listOptions.timeoutSeconds", &val.to_string())]);
+    }
+    if let Some(ref val) = list_options.limit {
+        req_builder = req_builder.query(&[("listOptions.limit", &val.to_string())]);
+    }
+    if let Some(ref val) = list_options.r#continue {
+        req_builder = req_builder.query(&[("listOptions.continue", &val.to_string())]);
+    }
+    if let Some(ref val) = list_options.send_initial_events {
+        req_builder = req_builder.query(&[("listOptions.sendInitialEvents", &val.to_string())]);
+    }
+    if let Some(ref val) = fields {
+        req_builder = req_builder.query(&[("fields", &val.to_string())]);
+    }
+
+    if let Some(bearer_token) = &config.bearer_token {
+        req_builder = req_builder.bearer_auth(bearer_token);
+    }
+
+    let req = req_builder.build()?;
+    let res = config.client.execute(req)?;
+    let status = res.status();
+    let content = res.text()?;
+
+    if !status.is_client_error() && !status.is_server_error() {
+        serde_json::from_str(&content).map_err(Error::from)
+    } else {
+        let entity: Option<WatchWorkflowsError> = serde_json::from_str(&content).ok();
         let error = ResponseContent {
             status,
             content,

@@ -85,6 +85,9 @@ pub use self::value_from::ValueFrom;
 mod volume_claim_gc;
 pub use self::volume_claim_gc::VolumeClaimGC;
 
+mod watch_event;
+pub use self::watch_event::*;
+
 mod workflow;
 pub use self::workflow::Workflow;
 

@@ -81,7 +81,7 @@
 |                                  | ✅        | `suspend_workflow`                    |            |
 |                                  | ✅        | `terminate_workflow`                  |            |
 |                                  | ✅        | `watch_events`                        |            |
-|                                  |           | `watch_workflows`                     |            |
+|                                  | ✅        | `watch_workflows`                     |            |
 |                                  |           | `workflow_logs`                       |            |
 |                                  |           |                                       |            |
 | `WorkflowTemplateService`        | ✅        | `create_workflow_template`            |            |
