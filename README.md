@@ -80,7 +80,7 @@
 |                                  | ✅        | `submit_workflow`                     |            |
 |                                  | ✅        | `suspend_workflow`                    |            |
 |                                  | ✅        | `terminate_workflow`                  |            |
-|                                  |           | `watch_events`                        |            |
+|                                  | ✅        | `watch_events`                        |            |
 |                                  |           | `watch_workflows`                     |            |
 |                                  |           | `workflow_logs`                       |            |
 |                                  |           |                                       |            |
