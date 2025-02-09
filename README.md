@@ -82,7 +82,7 @@
 |                                  | ✅        | `terminate_workflow`                  |            |
 |                                  | ✅        | `watch_events`                        |            |
 |                                  | ✅        | `watch_workflows`                     |            |
-|                                  |           | `workflow_logs`                       |            |
+|                                  | ✅        | `workflow_logs`                       |            |
 |                                  |           |                                       |            |
 | `WorkflowTemplateService`        | ✅        | `create_workflow_template`            |            |
 |                                  | ✅        | `delete_workflow_template`            |            |
