@@ -19,8 +19,14 @@ pub use label_value_from::LabelValueFrom;
 mod lifecycle_hook;
 pub use self::lifecycle_hook::LifecycleHook;
 
+mod lint_request;
+pub use self::lint_request::LintRequest;
+
 mod list;
 pub use self::list::WorkflowList;
+
+mod log_entry;
+pub use self::log_entry::*;
 
 mod metadata;
 pub use self::metadata::WorkflowMetadata;
@@ -40,11 +46,38 @@ pub use self::parameter::Parameter;
 mod pod_gc;
 pub use self::pod_gc::PodGC;
 
+mod resubmit_request;
+pub use self::resubmit_request::ResubmitRequest;
+
+mod resume_request;
+pub use self::resume_request::ResumeRequest;
+
+mod retry_request;
+pub use self::retry_request::RetryRequest;
+
+mod set_request;
+pub use self::set_request::SetRequest;
+
 mod spec;
 pub use self::spec::WorkflowSpec;
 
+mod stop_request;
+pub use self::stop_request::StopRequest;
+
+mod submit_options;
+pub use self::submit_options::SubmitOptions;
+
+mod submit_request;
+pub use self::submit_request::SubmitRequest;
+
+mod suspend_request;
+pub use self::suspend_request::SuspendRequest;
+
 mod template_ref;
 pub use self::template_ref::TemplateRef;
+
+mod terminate_request;
+pub use self::terminate_request::TerminateRequest;
 
 mod ttl_strategy;
 pub use self::ttl_strategy::TTLStrategy;
@@ -54,6 +87,9 @@ pub use self::value_from::ValueFrom;
 
 mod volume_claim_gc;
 pub use self::volume_claim_gc::VolumeClaimGC;
+
+mod watch_event;
+pub use self::watch_event::*;
 
 mod workflow;
 pub use self::workflow::Workflow;

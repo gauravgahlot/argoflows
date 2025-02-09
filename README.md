@@ -69,20 +69,20 @@
 | `WorkflowService`                | ✅        | `create_workflow`                     |            |
 |                                  | ✅        | `delete_workflow`                     |            |
 |                                  | ✅        | `get_workflow`                        |            |
-|                                  |           | `lint_workflow`                       |            |
+|                                  | ✅        | `lint_workflow`                       |            |
 |                                  | ✅        | `list_workflows`                      |            |
 |                                  | ❌        | `pod_logs`                            | DEPRECATED |
-|                                  |           | `resubmit_workflow`                   |            |
-|                                  |           | `resume_workflow`                     |            |
-|                                  |           | `retry_workflow`                      |            |
-|                                  |           | `set_workflow`                        |            |
-|                                  |           | `stop_workflow`                       |            |
-|                                  |           | `submit_workflow`                     |            |
-|                                  |           | `suspend_workflow`                    |            |
-|                                  |           | `terminate_workflow`                  |            |
-|                                  |           | `watch_events`                        |            |
-|                                  |           | `watch_workflows`                     |            |
-|                                  |           | `workflow_logs`                       |            |
+|                                  | ✅        | `resubmit_workflow`                   |            |
+|                                  | ✅        | `resume_workflow`                     |            |
+|                                  | ✅        | `retry_workflow`                      |            |
+|                                  | ✅        | `set_workflow`                        |            |
+|                                  | ✅        | `stop_workflow`                       |            |
+|                                  | ✅        | `submit_workflow`                     |            |
+|                                  | ✅        | `suspend_workflow`                    |            |
+|                                  | ✅        | `terminate_workflow`                  |            |
+|                                  | ✅        | `watch_events`                        |            |
+|                                  | ✅        | `watch_workflows`                     |            |
+|                                  | ✅        | `workflow_logs`                       |            |
 |                                  |           |                                       |            |
 | `WorkflowTemplateService`        | ✅        | `create_workflow_template`            |            |
 |                                  | ✅        | `delete_workflow_template`            |            |
