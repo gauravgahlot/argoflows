@@ -4,28 +4,38 @@ All notable changes to this project are documented in this file.
 
 This project follows [Keep a Changelog](https://keepachangelog.com/) conventions and adheres to [Semantic Versioning](https://semver.org/).
 
-## [v0.1.0] - 2023-09-20
+## [v0.1.0] - 2025-01-18
 
-### Initial Release
+Argoflows provides a Rust client library for interacting with Argo Workflows.
 
-Basic Python client for Argo Workflows with essential API operations.
+## [Unreleased]
 
 #### Added Features
 
-##### **Workflow Service**
-- `create_workflow` - Submit workflows to Kubernetes
-- `get_workflow` - Retrieve workflow details
-- `list_workflows` - List workflows in namespace
-- `delete_workflow` - Delete workflows
+- Initial project setup with core functionality
+- REST API endpoints for Argo Workflows operations:
+  - `/api/v1/workflows` - List workflows
+  - `/api/v1/workflow/{namespace}/{name}` - Get workflow details
+  - `/api/v1/workflow/{namespace}/{name}/logs` - Get workflow logs
+  - `/api/v1/workflow/{namespace}/{name}/terminate` - Terminate workflow
+  - `/api/v1/workflow/{namespace}/{name}/retry` - Retry workflow
+  - `/api/v1/workflow/{namespace}/{name}/suspend` - Suspend workflow
+  - `/api/v1/workflow/{namespace}/{name}/resume` - Resume workflow
+  - `/api/v1/workflow/{namespace}/{name}/resubmit` - Resubmit workflow
+- Support for multiple Kubernetes clusters
+- Workflow management capabilities including:
+  - Listing workflows
+  - Getting workflow details
+  - Retrieving workflow logs
+  - Workflow operations (terminate, retry, suspend, resume, resubmit)
+- Basic authentication support
+- Kubernetes configuration integration
+- Error handling and logging
 
-##### **Workflow Template Service**
-- `create_workflow_template` - Create workflow templates
-- `get_workflow_template` - Get template details
-- `list_workflow_templates` - List all templates
-- `delete_workflow_template` - Delete templates
+### Documentation
+- Added README with API documentation
+- Added installation and setup instructions
+- Added configuration guide for Kubernetes integration
 
-##### **Archived Workflow Service**
-- `list_archived_workflows` - List archived workflows
-- `get_archived_workflow` - Retrieve archived workflow details
-
+[Unreleased]: https://github.com/gauravgahlot/argoflows/commits/main
 For additional details, please refer to the [release notes](https://github.com/gauravgahlot/argoflows/releases/tag/v0.1.0).
